@@ -1,0 +1,177 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+nav a.nav-link {
+	color: #fff !important;
+	transition: 300ms;
+	position: relative;
+}
+nav a.nav-link:after {
+	content: "";
+	position: absolute;
+	height: 2px;
+	background-color: #fff;
+	bottom: 0;
+	width: 0;
+	opacity: 0;
+	transition: 300ms;
+	animation: navOut 300ms;
+	animation-fill-mode: forwards;
+}
+nav a.nav-link:hover:after {
+	animation: navIn 300ms;
+	animation-fill-mode: forwards;
+}
+@keyframes navIn {
+	from {
+		left: 0;
+		width: 0;
+		opacity: 0;
+	}
+	to {
+		left: 0;
+		width: 100%;
+		opacity: 1;
+	}
+}
+@keyframes navOut {
+	from {
+		right: 0;
+		width: 100%;
+		opacity: 1;
+	}
+	to {
+		width: 0;
+		right: 0;
+		opacity: 0;
+	}
+}
+
+textarea.outline-none:hover, 
+input.outline-none:hover, 
+textarea.outline-none:active, 
+input.outline-none:active, 
+textarea.outline-none:focus, 
+input.outline-none:focus,
+button.outline-none:focus,
+button.outline-none:active,
+button.outline-none:hover,
+label.outline-none:focus,
+.btn.outline-none:active,
+.btn.active.outline-none
+{
+    outline:0px !important;
+    box-shadow: none !important;
+    -webkit-appearance:none;
+}
+
+@media (max-width: 992px) {
+	.container.md {
+	    max-width: 100%;
+	}
+}
+
+#item-category {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: transparent;
+}
+
+.text-brown {
+	color: #834C24;
+}
+.bg-brown {
+	background-color: #834C24;
+}
+.text-orange {
+	color: $orange;
+}
+.bg-orange {
+	background-color: $orange;
+}
+
+
+#offered-products .card .card-body > div:first-child{
+	width: 60px;
+}
+#offered-products .card .card-body > div:last-child{
+	width: calc(100% - 60px);
+}
+#offered-products .card .card-body {
+	padding: 10px;
+}
+.offered-card div.offer{
+	position: absolute;
+	bottom: 5px;
+	left: 48px;
+	font-size: 11px;
+	background-color: rgba(255,87,51, 0.8);
+	color: #fff;
+	padding: 0 2px;
+}
+#top-pasals .card .card-body > div:first-child{
+	width: 60px;
+}
+#top-pasals .card .card-body > div:last-child{
+	width: calc(100% - 60px);
+}
+#top-pasals .card .card-body {
+	padding: 10px;
+}
+.offered-card div.offer{
+	position: absolute;
+	bottom: 8px;
+	left: 48px;
+	width: 25px;
+	font-size: 11px;
+	background-color: rgba(255,87,51, 0.8);
+	color: #fff;
+	padding: 0 2px;
+}
+.offer-cloud > span:first-child{
+	position: relative;
+	cursor: pointer;
+}
+.offer-cloud.moving > span:first-child{
+	animation: flyCloud 10s infinite;
+}
+@keyframes flyCloud {
+	0% {
+		margin-left : 0;
+	}
+	50% {
+		margin-left : 200px;
+	}
+	100% {
+		margin-left : 0;
+	}
+}
+.offer-cloud > span:first-child > span:first-child{
+	position: absolute;
+	font-size: 12px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	color: $teal;
+	width: 100%;
+	text-align: center;
+}
