@@ -31,15 +31,6 @@
 	</div>
 	<section id="item-category">
 		<div class="container md">
-			<form class="form-inline" style="padding: 1rem;">
-				<select class="form-control form-control-sm outline-none" style="min-width: 100px">
-					<option value="1">CATEGORIES</option>
-					<option value="1">cate</option>
-					<option value="1">cate</option>
-					<option value="1">cate</option>
-					<option value="1">cate</option>
-				</select>
-			</form>
 			<div class="offer-cloud moving" style="padding: 1rem;">
 				<span class="fas fa-cloud fa-4x text-white">
 					<span>Hit me!</span> <br>

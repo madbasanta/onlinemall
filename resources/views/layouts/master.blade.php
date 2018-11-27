@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="description" content="Online Mall">
+	<meta name="description" content="<?= $__env->yieldContent('keywords'); ?>">
 	<meta name="keywords" content="Online Mall,Online Shopping,<?= $__env->yieldContent('keywords'); ?>">
 	<meta name="author" content="<?= $__env->yieldContent('author'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
