@@ -149,6 +149,10 @@ if (!Function.prototype.bind) {
 $(document).ready(function() {
 	initLineClamp();
 
+    $('#pasalGridCarousel').on('slid.bs.carousel', function() {
+        initLineClamp();
+    });
+
 	$(document).on('click', '.offer-cloud.moving > span:first-child', function(e) {
 		let parent = this.parentElement;
 		parent.classList.remove('moving');

@@ -32,12 +32,21 @@
 	<section id="item-category">
 		<div class="container md">
 			<div class="offer-cloud moving" style="padding: 1rem;">
-				<span class="fas fa-cloud fa-4x text-white">
-					<span>Hit me!</span> <br>
+				<span class="fas fa-hand-paper fa-2x text-white">
+					<span></span> <br>
 				</span>
 				<div style="width: 200px;display: none;">
 					<img src="{{ asset('image/giphy.gif') }}" alt="giphy image" style="height: 50px;width: 100%;">
 				</div>
+			</div>
+			<div class="item-categories" style="position: absolute;width: 200px;">
+				@foreach(range(0, 5) as $c)
+				<span class="d-inline-block text-center bg-white float-left item-category" data-title="Lorem item-category title" 
+				style="width: 50px;height: 50px;line-height: 32px;position: relative;
+				padding: 10px;border-radius: 25px;margin-right: 50px;margin-top: 20px;">
+					<i class="fa fa-money-bill-alt text-orange"></i>
+				</span>
+				@endforeach
 			</div>
 		</div>
 	</section>
