@@ -164,7 +164,7 @@ $(document).ready(function() {
 			setTimeout(function() {
 				container.css({'width': '100%', 'color' : '#fff', 'background-color': 'rgba(0,0,0,0.3)', 'padding' : '5px 10px'});
 				container.text(data[key].quote);
-				setTimeout(function() { parent.closest('#item-category').remove(); }, 10000);
+				setTimeout(function() { parent.remove(); }, 10000);
 			}, 1000);
 		});
 	});

@@ -16,7 +16,7 @@
 <body>
     @include('layouts.nav')
     @yield('content')
-    @include('layouts.auth_footer')
+    @include('layouts.footer')
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('script')
     <script>

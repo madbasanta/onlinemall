@@ -9,11 +9,11 @@
 						
 						<div class="row">
 							@foreach(range(0, 7) as $i)
-							<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-								<div class="card border-0 mb-3">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-12 px-2">
+								<div class="card border-0 mb-3 b-e-h">
 									<div class="card-body text-center p-0">
 										<img class="img-fluid" src="https://picsum.photos/320/{{ 200 + $i }}" alt="falano pasal image">
-										<div><p style="line-height: 1rem;" class="clamp mt-3 p-1 text-left" data-lines="2">Pasal name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, dicta.</p></div>
+										<div><p style="line-height: 1rem;" class="clamp mt-3 p-1 text-left mb-0" data-lines="2">Pasal name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, dicta.</p></div>
 									</div>
 								</div>
 							</div>

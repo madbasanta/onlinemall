@@ -10,7 +10,15 @@
 
 body {
 	font-family: 'Roboto', sans-serif;
-	padding-top: 80px;
+	padding-top: 78px;
+}
+
+#dark-section{
+	font-size: 12px;
+	line-height: normal;
+}
+#dark-section a{
+	color: #fff;
 }
 
 .navbar-laravel {
@@ -88,13 +96,26 @@ label.outline-none:focus,
 	}
 }
 
-#item-category {
-	position: absolute;
-	height: auto;
+#v-message {
+	position: absolute;;
 	width: 100%;
 	top: 0;
 	left: 0;
-	background: transparent;
+}
+
+#v-message .offer-cloud {
+	position: absolute;
+	float: left;
+	height: 300px;
+}
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
 }
 
 .text-brown {
@@ -107,7 +128,12 @@ label.outline-none:focus,
 	color: $orange;
 }
 .bg-orange {
+	opacity: 0.85;
+	transition: 150ms;
 	background-color: $orange;
+}
+.bg-orange:hover {
+	opacity: 1;
 }
 
 
@@ -207,28 +233,33 @@ label.outline-none:focus,
 }
 
 .b-e-h:hover {
-	border: 1px solid lightgray !important;
+	box-shadow: 0 0 1px 2px lightgray !important;
 }
 
-.item-category:hover {
-	transform: rotateZ(360deg);
-	transition: 500ms;
-}
-.item-category:after{
-	content: attr(data-title);
-	position: absolute;
-	left: calc(100% + 10px);
-	right: 0;
-	width: 400px;
-	opacity: 0;
+.b-e-h-c img {
 	transition: 300ms;
-	text-align: left;
-	z-index: 99;
-}
-.item-category:hover:after{
-	transition-delay: 400ms;
-	opacity: 1;
 }
 
+.b-e-h .b-e-h-c {
+	overflow: hidden;
+}
+
+.b-e-h:hover .b-e-h-c img{
+	transform: scale(1.1);
+}
+
+img {
+    -webkit-backface-visibility: hidden; 
+    -ms-transform: translateZ(0); /* IE 9 */
+    -webkit-transform: translateZ(0); /* Chrome, Safari, Opera */
+    transform: translateZ(0);
+}
+
+.category-tog {
+	cursor: pointer;
+}
+.pointer {
+	cursor: pointer;
+}
 
 @import 'product';

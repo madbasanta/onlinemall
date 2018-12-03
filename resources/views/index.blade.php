@@ -11,13 +11,13 @@
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="First slide">
+				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="First slide" height="300">
 			</div>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="Second slide">
+				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="Second slide" height="300">
 			</div>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="Third slide">
+				<img class="d-block w-100" src="https://picsum.photos/1024/256" alt="Third slide" height="300">
 			</div>
 		</div>
 		<a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
@@ -29,7 +29,7 @@
 			<span class="sr-only">Next</span>
 		</a>
 	</div>
-	<section id="item-category">
+	<section id="v-message">
 		<div class="container md">
 			<div class="offer-cloud moving" style="padding: 1rem;">
 				<span class="fas fa-hand-paper fa-2x text-white">
@@ -39,14 +39,35 @@
 					<img src="{{ asset('image/giphy.gif') }}" alt="giphy image" style="height: 50px;width: 100%;">
 				</div>
 			</div>
-			<div class="item-categories" style="position: absolute;width: 200px;">
-				@foreach(range(0, 5) as $c)
-				<span class="d-inline-block text-center bg-white float-left item-category" data-title="Lorem item-category title" 
-				style="width: 50px;height: 50px;line-height: 32px;position: relative;
-				padding: 10px;border-radius: 25px;margin-right: 50px;margin-top: 20px;">
-					<i class="fa fa-money-bill-alt text-orange"></i>
-				</span>
-				@endforeach
+		</div>
+	</section>
+	<section class="item-category" style="position: absolute; bottom: 10px;left: 0;width: 100%;">
+		<div class="container" style="position: relative;">
+			<div style="position: absolute;left: 0;bottom: 0px;">
+				<button class="btn btn-sm bg-white px-4 cat-toggler">
+					Categories &nbsp;<i class="fa fa-chevron-down fa-sm"></i>
+				</button>
+				<div style="position: absolute;z-index: 99;display: none;bottom: 0px;left: 101%;width: 200px;font-size: 0.7875rem;" class="bg-white ic">
+					<div class="row">
+						@foreach(range(0, 8) as $i)
+						<div class="col-sm-12 pt-1 clearfix">
+							<div class="ml-2 mb-2 category-tog" data-target="cat__{{ $i }}">Main Category {{ $i }}<i class="fa fa-chevron-right float-right mr-2 fa-sm mt-1"></i></div>
+						</div>
+						@endforeach
+					</div>
+					@foreach(range(0, 8) as $j)
+					<div style="position: absolute;bottom: 0;left: 101%;top: 0;width: 450px;display: none;" class="bg-white pr-2 cat-c cat__{{ $j }}">
+						<h1 class="h5 mt-2 ml-2">Main Category {{ $j }}</h1>
+						<div class="row">
+							@foreach(range(0, $j) as $i)
+							<div class="col-md-4 px-1">
+								<div class="ml-3 mb-2 mr-2 pointer">&nbsp; Sub Category {{ $i . ' - ' . $j }}</div>
+							</div>
+							@endforeach
+						</div>
+					</div>
+					@endforeach
+				</div>
 			</div>
 		</div>
 	</section>
@@ -148,4 +169,42 @@
 @include('include.pasalsGrid')
 @include('include.indexItems')
 @include('include.recommendedItem')
+@endsection
+
+@section('script')
+<script>
+	$(document).on('click', '.cat-toggler', function(e) {
+		let that = $(this);
+		let thatIcon = that.find('i.fa');
+		that.siblings('div.ic').toggle(400, function(){
+			if(thatIcon.hasClass('fa-chevron-down'))
+				thatIcon.addClass('fa-chevron-up').removeClass('fa-chevron-down');
+			else {
+				thatIcon.addClass('fa-chevron-down').removeClass('fa-chevron-up');
+				$('div.cat-c').hide();
+				$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
+			}
+		});
+	});
+	$(document).ready(function() {
+		$('.category-tog').off('hover').hover(function(e) {
+			let that = $(this);
+			let target = that.data('target');
+			that.parent().siblings('.clearfix').find('div.category-tog i.fa').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+			that.find('i.fa').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+			$('.' + target).siblings('div.cat-c').hide().end().show();
+		}, function(e) {
+			let that = $(this);
+			let target = that.data('target');
+			$('.' + target).off('mouseleave').on('mouseleave', function(e) {
+				$(this).hide();
+			});
+		});
+	});
+	$('div.ic').off('mouseleave').on('mouseleave', function() {
+		that = $(this);
+		that.find('div.cat-c').hide();
+		$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
+	});
+</script>
 @endsection

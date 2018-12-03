@@ -1,10 +1,10 @@
 <section id="recommendedItems">
 	<hr class="bg-dark">
-	<div class="container-fluid">
+	<div class="container">
 		<h3 class="h4">Recommended For Your <i class="fa fa-heart text-danger mb-3"></i></h3>
 		<div class="row">
 			@foreach(range(0, 5) as $i)
-			<div class="col-lg-2 d-lg-block col-md-3 d-md-block col-sm-4 col-6 {{ $i > 3 ? 'd-none' : '' }}">
+			<div class="col-lg-2 d-lg-block col-md-3 d-md-block col-sm-4 col-6 {{ $i > 3 ? 'd-none' : '' }} px-2">
 				<div class="card border-0 mb-3 b-e-h">
 					<div class="card-body text-center p-0">
 						<img class="img-fluid" src="https://picsum.photos/350/{{ 345 + $i }}" alt="item pic">
