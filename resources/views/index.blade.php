@@ -44,10 +44,11 @@
 	<section class="item-category" style="position: absolute; bottom: 10px;left: 0;width: 100%;">
 		<div class="container" style="position: relative;">
 			<div style="position: absolute;left: 0;bottom: 0px;">
-				<button class="btn btn-sm bg-white px-4 cat-toggler">
+				<button class="btn btn-sm bg-white px-4 cat-toggler ml-sm-0 ml-4">
 					Categories &nbsp;<i class="fa fa-chevron-down fa-sm"></i>
 				</button>
-				<div style="position: absolute;z-index: 99;display: none;bottom: 0px;left: 101%;width: 200px;font-size: 0.7875rem;" class="bg-white ic">
+				<div style="position: fixed;z-index: 99;display: none;top: 120px;left: 10vw;width: 200px;font-size: 0.7875rem;
+				box-shadow: 0 0 5px 2px #2a3056;" class="bg-white ic ccc">
 					<div class="row">
 						@foreach(range(0, 8) as $i)
 						<div class="col-sm-12 pt-1 clearfix">
@@ -56,12 +57,14 @@
 						@endforeach
 					</div>
 					@foreach(range(0, 8) as $j)
-					<div style="position: absolute;bottom: 0;left: 101%;top: 0;width: 450px;display: none;" class="bg-white pr-2 cat-c cat__{{ $j }}">
+					<div style="position: absolute;min-height:100%;left: 101%;top: 0;width: 50vw;display: none;
+					box-shadow: 0 0 5px 2px #2a3056;" class="bg-white pr-2 cat-c cat__{{ $j }}">
 						<h1 class="h5 mt-2 ml-2">Main Category {{ $j }}</h1>
+						<hr class="m-0 mb-2">
 						<div class="row">
 							@foreach(range(0, $j) as $i)
 							<div class="col-md-4 px-1">
-								<div class="ml-3 mb-2 mr-2 pointer">&nbsp; Sub Category {{ $i . ' - ' . $j }}</div>
+								<div class="ml-3 mb-2 mr-2 pointer b-bot-p sub-cat">&nbsp; Sub Category {{ $i . ' - ' . $j }}</div>
 							</div>
 							@endforeach
 						</div>
@@ -75,13 +78,13 @@
 <section>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-xl-3 col-lg-4 pr-md-1">
 				<div class="p-2 mt-3" id="offered-products">
 					<h3 class="h5 text-brown font-weight-bold">Offered Products</h3>
 					<hr class="m-0 bg-brown">
 					<div class="row">
 						@foreach(range(0, 3) as $i)
-						<div class="col-lg-12 col-md-12 col-sm-6 col-12">
+						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
 							<div class="card mt-3 offered-card border-0">
 								<div class="card-body">
 									<div class="float-left"><img src="https://picsum.photos/256/256" alt="picsum" class="img-fluid"></div>
@@ -90,7 +93,7 @@
 										<h6 class="h6 clamp" data-lines="2">Title of product goes here it could be this mush long</h6>
 										<div style="color: rgb(255,87,51);">
 											Rs.&nbsp;{{ $price * ((100 - $offer)/100) }} &nbsp; 
-											<del class="text-muted d-lg-inline d-md-none">Rs. {{ $price }}</del>
+											<del class="text-muted">Rs. {{ $price }}</del>
 										</div>
 									</div>
 								</div>
@@ -101,7 +104,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-xl-6 col-lg-4 px-md-1">
 				<div class="p-2 mt-3">
 					<section>
 						<div id="shopCarousel" class="carousel slide" data-ride="carousel">
@@ -137,13 +140,13 @@
 					</section>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-xl-3 col-lg-4 pl-md-1">
 				<div class="p-2 mt-3" id="top-pasals">
 					<h3 class="h5 text-brown font-weight-bold">Top Shops</h3>
 					<hr class="m-0 bg-brown">
 					<div class="row">
 						@foreach(range(0, 3) as $i)
-						<div class="col-lg-12 col-md-12 col-sm-6 col-12">
+						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
 							<div class="card mt-3 border-0">
 								<div class="card-body">
 									<div class="float-left"><img src="https://picsum.photos/300/300" alt="picsum" class="img-fluid"></div>
@@ -187,6 +190,38 @@
 		});
 	});
 	$(document).ready(function() {
+		initHover();
+		$(document).on('click', function(e) {
+			let target = e.target || e.srcElement;
+			if(target.classList.contains('ccc') || target.closest('.ccc') || target.classList.contains('cat-toggler') || target.closest('.cat-toggler')) return
+			if($('.ccc').is(':visible')){ 
+				$('.ccc').hide(200);
+				$('.cat-toggler i').addClass('fa-chevron-down').removeClass('fa-chevron-up');
+			}
+		});
+		$(window).on('scroll', function(e) {
+			let that = $(this);
+			if(that.scrollTop() > 325 && $('.item-category-slide .container').length === 0){
+				$('.item-category').hide();
+				$('.item-category-slide').html($('.item-category .container').clone())
+				.css({'margin': '40px 0 10px 0', height: '1px', position: 'fixed', 'top' : '80px', 'z-index': 99}).show(200)
+				.find('.cat-toggler').removeClass('bg-white').addClass('bg-info').html('<i class="fa fa-grip-horizontal text-white"></i>')
+				.parent().css('padding-left', '20px');
+				initHover();
+			}
+			else if(that.scrollTop() < 325 && $('.item-category-slide .container').length === 1) {
+				$('.item-category').show();
+				$('.item-category-slide').html('').removeAttr('style').hide(0);
+			}
+		});
+	});
+	$(document).off('mouseleave', 'div.ic').on('mouseleave', 'div.ic', function() {
+		that = $(this);
+		that.find('div.cat-c').hide();
+		$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
+	});
+	function initHover()
+	{
 		$('.category-tog').off('hover').hover(function(e) {
 			let that = $(this);
 			let target = that.data('target');
@@ -200,11 +235,6 @@
 				$(this).hide();
 			});
 		});
-	});
-	$('div.ic').off('mouseleave').on('mouseleave', function() {
-		that = $(this);
-		that.find('div.cat-c').hide();
-		$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
-	});
+	}
 </script>
 @endsection

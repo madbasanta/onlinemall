@@ -10,7 +10,7 @@
 				<div class="row bg-white">
 					<div class="col-sm-4 col-12">
 						<div class="my-3">
-							<img class="img-fluid" src="{{ asset('image/' . $product->image) }}" alt="{{ $product->name }}">
+							<img class="img-fluid magnify-image" src="{{ asset('image/' . $product->image) }}" alt="{{ $product->name }}">
 						</div>
 					</div>
 					<div class="col-sm-4 col-12">
@@ -58,7 +58,7 @@
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<div class="p-2">
 						<h1 class="h5 mt-3">{{ $product->name }}</h1>
 						<hr class="m-0">
@@ -67,7 +67,7 @@
 						{!! $product->description !!}
 					</div>
 				</div>
-				<div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="p-2">
 						<h1 class="h5 mt-3">Falano Shop Lorem ipsum dolor sit amet.</h1>
 						<hr class="m-0">
@@ -103,4 +103,19 @@
 		</div>
 	</div>
 </section>
+@endsection
+
+@section('script')
+<script>
+	$(function() {
+		$('.magnify-image').on('click', function(e) {
+			let that = this;
+			$('#master_modal').modalSetting({
+				classes: {'modal-dialog' : 'modal-lg', 'modal-footer' : 'p-0'},
+				html: {'modal-title h3' : that.alt, 'modal-body' : `<img class="img-fluid" src="${that.src}" />`},
+				// buttons : [{text: 'Submit', class: 'btn-primary'}, {text: 'Cancel', class: 'pull-left'}]
+			}).modal('show');
+		});
+	});
+</script>
 @endsection

@@ -17,6 +17,7 @@
 	@include('layouts.nav')
 	@yield('content')
 	@include('layouts.footer')
+	@include('layouts.master_modal')
 	<script src="{{ asset('js/app.js') }}"></script>
 	@yield('script')
 	<script>

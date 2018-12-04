@@ -23,6 +23,7 @@
         </div>
     </div>
 </nav>
+<div class="item-category-slide" style="display: none;"></div>
 <div id="dark-section" class="bg-dark">
     <div class="container md">
         <ul class="nav justify-content-end">

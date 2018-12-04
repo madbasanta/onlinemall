@@ -61,7 +61,7 @@
 							<button type="submit" class="btn btn-sm btn-success mt-2 px-4">Subscribe</button>
 						</form>
 						<div class="mt-4 pt-2">
-							<h6 class="initialism mb-0">Copyrights &copy; Online Mall 2018.</h6>
+							<h6 class="initialism mb-0">Copyrights &copy; {{ config('app.name') }} 2018.</h6>
 						</div>
 					</div>
 				</div>

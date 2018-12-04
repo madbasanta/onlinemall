@@ -175,3 +175,25 @@ function initLineClamp() {
 		clamp(this, parseInt(this.dataset.lines));
 	});
 }
+
+$.fn.modalSetting = function(options = {}) {
+    if(options.classes) {
+        for (let i in options.classes) {
+            this.find('.' + i).addClass(options.classes[i]);
+        }
+    }
+    if(options.buttons) {
+        let modal_footer = this.find('.modal-footer');
+        modal_footer.empty();
+        for (let b in options.buttons) {
+            let btn = options.buttons[b];
+            modal_footer.append(`<button type="${(btn.type || 'button')}" class="btn btn-sm ${btn.class}">${btn.text}</button>`);
+        }
+    }
+    if(options.html) {
+        for (let h in options.html) {
+            this.find('.' + h).html(options.html[h]);
+        }
+    }
+    return this;
+}
