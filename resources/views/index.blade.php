@@ -41,7 +41,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="item-category" style="position: absolute; bottom: 10px;left: 0;width: 100%;">
+{{-- 	<section class="item-category" style="position: absolute; bottom: 10px;left: 0;width: 100%;">
 		<div class="container" style="position: relative;">
 			<div style="position: absolute;left: 0;bottom: 0px;">
 				<button class="btn btn-sm bg-white px-4 cat-toggler ml-sm-0 ml-4">
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 </section>
 <section>
 	<div class="container-fluid">
@@ -172,69 +172,4 @@
 @include('include.pasalsGrid')
 @include('include.indexItems')
 @include('include.recommendedItem')
-@endsection
-
-@section('script')
-<script>
-	$(document).on('click', '.cat-toggler', function(e) {
-		let that = $(this);
-		let thatIcon = that.find('i.fa');
-		that.siblings('div.ic').toggle(400, function(){
-			if(thatIcon.hasClass('fa-chevron-down'))
-				thatIcon.addClass('fa-chevron-up').removeClass('fa-chevron-down');
-			else {
-				thatIcon.addClass('fa-chevron-down').removeClass('fa-chevron-up');
-				$('div.cat-c').hide();
-				$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
-			}
-		});
-	});
-	$(document).ready(function() {
-		initHover();
-		$(document).on('click', function(e) {
-			let target = e.target || e.srcElement;
-			if(target.classList.contains('ccc') || target.closest('.ccc') || target.classList.contains('cat-toggler') || target.closest('.cat-toggler')) return
-			if($('.ccc').is(':visible')){ 
-				$('.ccc').hide(200);
-				$('.cat-toggler i').addClass('fa-chevron-down').removeClass('fa-chevron-up');
-			}
-		});
-		$(window).on('scroll', function(e) {
-			let that = $(this);
-			if(that.scrollTop() > 325 && $('.item-category-slide .container').length === 0){
-				$('.item-category').hide();
-				$('.item-category-slide').html($('.item-category .container').clone())
-				.css({'margin': '40px 0 10px 0', height: '1px', position: 'fixed', 'top' : '80px', 'z-index': 99}).show(200)
-				.find('.cat-toggler').removeClass('bg-white').addClass('bg-info').html('<i class="fa fa-grip-horizontal text-white"></i>')
-				.parent().css('padding-left', '20px');
-				initHover();
-			}
-			else if(that.scrollTop() < 325 && $('.item-category-slide .container').length === 1) {
-				$('.item-category').show();
-				$('.item-category-slide').html('').removeAttr('style').hide(0);
-			}
-		});
-	});
-	$(document).off('mouseleave', 'div.ic').on('mouseleave', 'div.ic', function() {
-		that = $(this);
-		that.find('div.cat-c').hide();
-		$('.category-tog').find('i.fa').addClass('fa-chevron-right').removeClass('fa-chevron-down');
-	});
-	function initHover()
-	{
-		$('.category-tog').off('hover').hover(function(e) {
-			let that = $(this);
-			let target = that.data('target');
-			that.parent().siblings('.clearfix').find('div.category-tog i.fa').removeClass('fa-chevron-down').addClass('fa-chevron-right');
-			that.find('i.fa').removeClass('fa-chevron-right').addClass('fa-chevron-down');
-			$('.' + target).siblings('div.cat-c').hide().end().show();
-		}, function(e) {
-			let that = $(this);
-			let target = that.data('target');
-			$('.' + target).off('mouseleave').on('mouseleave', function(e) {
-				$(this).hide();
-			});
-		});
-	}
-</script>
 @endsection

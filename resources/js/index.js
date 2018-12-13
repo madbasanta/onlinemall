@@ -187,7 +187,7 @@ $.fn.modalSetting = function(options = {}) {
         modal_footer.empty();
         for (let b in options.buttons) {
             let btn = options.buttons[b];
-            modal_footer.append(`<button type="${(btn.type || 'button')}" class="btn btn-sm ${btn.class}">${btn.text}</button>`);
+            modal_footer.append(`<button${btn.id?` id="${btn.id}" `:' '}type="${(btn.type || 'button')}" class="btn btn-sm ${btn.class}">${btn.text}</button>`);
         }
     }
     if(options.html) {

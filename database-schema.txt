@@ -1,0 +1,50 @@
+1.	USERS
+		id, name, email, password, last_login, is_active, verified_at, created_at, updated_at
+		
+2. PASALS
+		id, name, email, password, contact, is_active, verified_at, created_at, updated_at
+
+3.	CATEGORIES
+		id, code, name, desc, is_sub, parent_id(unsignedInteger), is_active, created_at, updated_at
+		
+3.	BRANDS
+		id, code, name, desc, is_active, created_at, updated_at
+		
+4. 	PASAL_CATEGORY
+		id, pasal_id, category_id, created_at, updated_at
+		
+5.	PRODUCT
+		id, code, name, desc, category_id, is_active, created_at, updated_at
+
+6.	SIZES
+		id, size, is_active, created_at, updated_at
+		
+7.	COLORS
+		id, color, is_active, created_at, updated_at
+		
+8.	DISCOUNTS
+		id, title, amount, percent, is_amount, is_active, created_at, updated_at
+		
+9.	CURRENCIES
+		id, code, title, is_active, created_at, updated_at
+		
+10.	INVENTORY
+		id, product_id, quantity, price, old_price, dicount_id, currency_id, size_id, color_id, brand_id, pasal_id, created_at, updated_at
+
+11.	ADDRESSES
+		id, add1, add2, city, zip, state, country, is_active, created_at, updated_at
+		
+11.	CARTS
+		id, user_id, inventory_id, quantity, current_price, currency_id, is_active, created_at, updated_at
+		
+12.	ORDERS
+		id, inventory_id, quantity, current_price, currency_id, is_active, created_at, updated_at
+		
+13.	PASAL_ADDRESS
+		id, pasal_id, address_id, is_active, created_at, updated_at
+		
+14. USER_ADDRESS
+		id, user_id, address_id, is_active, created_at, updated_at
+		
+15.	SHIPPING_ADDRESS
+		id, product_id, address_id, shipping_charge, currency_id, is_active, created_at, updated_at
