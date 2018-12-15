@@ -12,6 +12,9 @@ body {
 	font-family: 'Roboto', sans-serif;
 	padding-top: 30px;
 }
+body.nav-is-fixed {
+	padding-top: 108px;
+}
 
 #dark-section{
 	font-size: 12px;
@@ -46,6 +49,9 @@ nav a.nav-link:after {
 nav a.nav-link:hover:after {
 	animation: navIn 300ms;
 	animation-fill-mode: forwards;
+}
+#main-nav.mt-4 {
+	margin-top: 30px !important;
 }
 @keyframes navIn {
 	from {

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-info">
+<nav class="navbar navbar-expand-sm navbar-light bg-info" id="main-nav">
     <div class="container md">
         <button id="iamtoggler" class="navbar-toggler outline-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="fas fa-ellipsis-h text-white"></span>
@@ -118,12 +118,41 @@
 </form>
 @section('script')
 <script>
+    function isScrolledIntoView(elem)
+    {
+        var docViewTop = $(window).scrollTop();
+        var docViewBottom = docViewTop + $(window).height();
+
+        var elemTop = $(elem).offset().top;
+        var elemBottom = elemTop + $(elem).height();
+
+        return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    }
+    function doFunc()
+    {
+        let main_nav = $('#main-nav');
+        if(main_nav.length === 0) return;
+        if(!isScrolledIntoView(main_nav[0])) main_nav.addClass('fixed-top mt-4').closest('body').addClass('nav-is-fixed');
+    }
+    function notDoFunc()
+    {
+        let main_nav = $('#main-nav');
+        if(main_nav.length === 0) return;
+        main_nav.removeClass('fixed-top mt-4').closest('body').removeClass('nav-is-fixed');
+    }
     $(function() {
         $('.dropdown-submenu a.test').on("click", function(e) {
             $(this).next('ul').toggle();
             $(this).closest('li').siblings('li').find('.dropdown-menu').hide();
             e.stopPropagation();
             e.preventDefault();
+        });
+        let last_scroll = 0;
+        $(window).scroll(function(e) {
+            let current_scroll = $(this).scrollTop();
+            if(last_scroll > current_scroll) doFunc();
+            else notDoFunc();
+            last_scroll = current_scroll;
         });
     });
 </script>
