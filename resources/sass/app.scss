@@ -10,7 +10,10 @@
 
 body {
 	font-family: 'Roboto', sans-serif;
-	padding-top: 78px;
+	padding-top: 30px;
+}
+body.nav-is-fixed {
+	padding-top: 108px;
 }
 
 #dark-section{
@@ -46,6 +49,9 @@ nav a.nav-link:after {
 nav a.nav-link:hover:after {
 	animation: navIn 300ms;
 	animation-fill-mode: forwards;
+}
+#main-nav.mt-4 {
+	margin-top: 30px !important;
 }
 @keyframes navIn {
 	from {
@@ -298,4 +304,28 @@ img {
 	width: 63px;
 	height: 35px;
 }
+
+#dark-section {
+	.dropdown a {
+		color: #000;
+		padding: 5px 10px;
+		display: block;
+	}
+	.dropdown-menu {
+		width: max-content;
+	}
+	.dropdown .caret {
+		color: #000;
+	}
+	.dropdown-submenu {
+	    position: relative;
+	}
+
+	.dropdown-submenu .dropdown-menu {
+	    top: 0;
+	    left: 100%;
+	    margin-top: -1px;
+	}
+}
 @import 'product';
+@import 'pasal';

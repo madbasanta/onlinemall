@@ -52,9 +52,9 @@
 						We give you best deals & offers | ( No spam )
 						<form action="javascript:void(0)" method="post">
 							<div class="row">
-								<div class="col-md-4 col-sm-12 col-12">
+								<div class="col-md-2 col-sm-12 col-12">
 								</div>
-								<div class="col-md-8 col-sm-12 col-12">
+								<div class="col-md-10 col-sm-12 col-12">
 									<div><input type="text" class="form-control form-control-sm" placeholder="youremail@gamil.com"></div>
 								</div>
 							</div>
