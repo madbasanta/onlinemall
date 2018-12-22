@@ -97,7 +97,7 @@
                             <span class="d-sm-inline d-none">&nbsp;&nbsp;&nbsp;<span class="d-sm-none d-lg-inline d-md-inline d-xl-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                             <span class="d-sm-none d-inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <span class="d-sm-none d-lg-inline d-md-inline d-xl-inline">
-                                Signed in as {{ Auth()->user()->name }} <i class="dropdown-caret"></i>
+                                Signed in as {{ explode(' ', Auth()->user()->name)[0] }} <i class="dropdown-caret"></i>
                             </span>
                         </a>
                     </li>
