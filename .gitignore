@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 .env
 .phpunit.result.cache
+/public/css/admin.css
+/public/js/custom_app.js

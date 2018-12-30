@@ -2,10 +2,13 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use  Illuminate\Foundation\Auth\User as Authenticable;
+use App\Traits\UserField;
 
 class User extends Authenticable
 {
-	protected $table='users';
+	use UserField;
+
+	protected $table = 'users';
 	protected $fillable = [
 			'id',
 			'name',
@@ -18,7 +21,7 @@ class User extends Authenticable
 	protected $hidden = [
 		'password', 'remember_token',
 	];
-
+	
 	/*
 	Basically checks whether the user has role of given id or not
 	@param int $role_id

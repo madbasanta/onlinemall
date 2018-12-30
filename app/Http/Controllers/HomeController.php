@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Lib\ModelHandler;
 
 class HomeController extends Controller
 {
@@ -26,8 +27,26 @@ class HomeController extends Controller
         return view('index');
     }
 
+    /*
+    Shows the admin panel
+    */
     public function adminPanel()
     {
-        return view('admin.index');
+        return view('admin.index', [
+            'models' => $this->getModels(),
+        ]);
+    }
+
+    /*
+    Get crud models
+    */
+    public function getModels()
+    {
+        $models = array();
+        foreach(ModelHandler::$models as $mod):
+            array_push($models, new $mod);
+        endforeach;
+        // dd($models);
+        return $models;
     }
 }

@@ -18,7 +18,8 @@ class Admin
     {
         if(Auth::check() && Auth::user()->hasRoleId(1))
             return $next($request);
-        else
+        else if(!Auth::check())
+            return redirect('/login');
             return back();
     }
 }

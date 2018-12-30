@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\CurrencyField;
 
-class Currencies extends Model
+class Currency extends Model
 {
+    use CurrencyField;
+    
     protected $table ='currencies';
     protected $fillable = [
-    		  'id',
-    		   'code',
-    		  'tittle',
-    		  'is_active'
+		'code',
+		'tittle',
+		'is_active'
     ];
 }

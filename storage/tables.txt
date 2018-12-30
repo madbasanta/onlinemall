@@ -1,0 +1,16 @@
+users
+addresses
+brands
+addresses
+categories
+colors
+currencies
+discounts
+orders
+Pasals
+pasal_address
+pasal_category
+product
+shipping_address
+sizes
+user_address

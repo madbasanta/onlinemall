@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ProductField;
 
 class Product extends Model
 {
-protected $table='product';
-protected $filable = [
-		'id',
-		 'code', 
-		 'name', 
-		 'desc', 
-		 'category_id',		
-		 'is_active'
-];
+	use ProductField;
+
+	protected $table = 'products';
+	protected $filable = [
+		'code', 
+		'name', 
+		'desc', 
+		'category_id',
+	];
 }

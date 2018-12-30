@@ -7,8 +7,9 @@
         <title>{{ config('app.name') }} | Dashboard</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.7 -->
+        <link rel="icon" type="image/png" href="favicon.png">
         
+        <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
@@ -20,6 +21,7 @@
         <!-- AdminLTE Skins. Choose a skin from the css/skins
         folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/iCheck/all.css') }}">
         <!-- Morris chart -->
         <link rel="stylesheet" href="{{ asset('bower_components/morris.js/morris.css') }}">
         <!-- jvectormap -->
@@ -30,7 +32,10 @@
         <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-        
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
+
+        {{-- select 2 --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -46,9 +51,17 @@
                 <!-- Logo -->
                 <a href="index2.html" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>A</b>LT</span>
+                    <span class="logo-mini">
+                        {{ 
+                            array_reduce(explode(' ', config('app.name')), function($old, $curr) {
+                                return $old .= substr($curr, 0, 1);
+                            }, '') 
+                        }}
+                    </span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Admin</b>LTE</span>
+                    <span class="logo-lg">
+                        {{ config('app.name') }}
+                    </span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -326,7 +339,7 @@
                         </div>
                     </div>
                     <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
+                    <!--form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
@@ -334,7 +347,7 @@
                                 </button>
                             </span>
                         </div>
-                    </form>
+                    </form-->
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" data-widget="tree">
@@ -354,8 +367,8 @@
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a href="admin/categories"><i class="fa fa-circle-o"></i> Categories</a></li>
+                            <ul class="treeview-menu" id="models-tree">
+                                <!--li><a href="admin/categories"><i class="fa fa-circle-o"></i> Categories</a></li>
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Products</a></li>
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Inventories</a></li>
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Pasals</a></li>
@@ -370,7 +383,15 @@
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Addresses</a></li>
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Users</a></li>
                                 <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> User Adresses</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Pasal Addresses</a></li>
+                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Pasal Addresses</a></li-->
+                                @foreach($models as $mod)
+                                    <li>
+                                        <a href="{{ $mod->getTable()?admin_url('mod/'.$mod->getTable()):'javascript:void(0)' }}" data-id="#mod-{{ $mod->getTable() }}">
+                                            <i class="fa fa-circle-o"></i>
+                                            {{ title_case($mod->getTable()) }}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                     </ul>
@@ -379,16 +400,16 @@
             </aside>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <div class="">
+                <div id="content-wrapper">
                     @yield('content')
                 </div>
             </div>
             <!-- /.content-wrapper -->
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
-                    <b>Version</b> 2.4.0
+                    <b>Version</b> 1
                 </div>
-                <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+                <strong>Copyright &copy; 2018-{{ date('y') }} <a href="{{ url('') }}">{{ config('app.name') }}</a>.</strong> All rights
                 reserved.
             </footer>
             <!-- Control Sidebar -->
@@ -564,27 +585,26 @@
         <!-- ./wrapper -->
         <!-- jQuery 3 -->
         <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <script>
-        $.widget.bridge('uibutton', $.ui.button);
-        </script>
         <!-- Bootstrap 3.3.7 -->
         <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        
-        <script src="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-        <!-- datepicker -->
-        <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+        {{-- select2 --}}
+        <script type="text/javascript" src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+        <!-- DataTables -->
         <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-
-        <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+        <!-- SlimScroll -->
+        <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
+        <!-- FastClick -->
+        <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="{{ asset('dist/js/demo.js') }}"></script>
+        {{-- <script src="{{ asset('dist/js/demo.js') }}"></script> --}}
+        <!-- page script -->
         <!-- local script -->
-        {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+        <script src="{{ asset('js/custom_app.js') }}"></script>
         @yield('script')
     </body>
 </html>
