@@ -37,3 +37,5 @@ span.loader {
 	height: 34px !important;
 	padding: 6px 3px !important;
 }
+
+.d-table td, .d-table th{ padding: 5px 15px; }

@@ -10,7 +10,7 @@ class Product extends Model
 	use ProductField, CommonTraits;
 
 	protected $table = 'products';
-	protected $filable = [
+	protected $fillable = [
 		'code', 
 		'name', 
 		'desc', 

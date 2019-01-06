@@ -8,7 +8,7 @@ class Pasal extends Model
 	use PasalField, CommonTraits;
 
 	protected $table = 'pasals';
-	protected $filable = [
+	protected $fillable = [
 		'name', 
 		'email', 
 		'password', 

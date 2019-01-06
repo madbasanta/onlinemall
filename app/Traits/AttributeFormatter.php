@@ -10,10 +10,6 @@ trait AttributeFormatter {
 		return date_create($date)->format('d-M-y h:i a');
 	}
 
-	public function getIsActiveAttribute($status) {
-		return $status ? 'active' : '-';
-	}
-
 	public function getVerifiedAtAttribute($date) {
 		if($date)
 			return date_create($date)->format('d-M-y h:i a');

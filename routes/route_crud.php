@@ -9,6 +9,7 @@ Route::group(['admin'], function() {
 	Route::get('admin/editOne/{mod}/{id}', 'CrudController@editOne');
 	Route::post('admin/update/{mod}/{id}', 'CrudController@updateOne');
 
+	/* DETAILS */
 	Route::get('admin/mod/{model}/{id}', 'CrudController@showOne');
 
 	Route::get('admin/getOptions/{mod}', 'CrudController@loadOptions');

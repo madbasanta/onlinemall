@@ -15,6 +15,9 @@ trait CommonTraits {
     	if(isset($this->relationships[$key])) 
     		return $this->relationships[$key];
     	return null;
+    }    
+
+    public function getIsActiveAttribute($status) {
+        return $status ? 'active <i class="fa fa-circle text-success" style="font-size:12px;"></i>' : '-';
     }
-    
 }

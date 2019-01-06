@@ -13,6 +13,7 @@ trait PasalField {
 	public $fields = [
 		'name' => ['validation' => 'required'],
 		'email' => ['type' => 'email', 'validation' => 'required|email|unique:users,email'],
+		'contact' => ['validation' => 'required'],
 		'password' => [
 			'type' => 'password',
 			'validation' => 'required|min:8|confirmed',

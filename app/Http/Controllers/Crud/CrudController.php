@@ -205,7 +205,8 @@ class CrudController extends Controller
         if(!$model) return response(['error' => 1], 500);
         $fakeModel = ModelHandler::getObject($mod);
         $fakeModel->fill($model->toArray());
-        $relations = $model->hasRelation() ? $this->callRelations($model) : [];
+        // $relations = $model->hasRelation() ? $this->callRelations($model) : [];
+        $relations = [];
         $fieldArray = $this->loadFieldArray($model->fields, $model);
         $view = view('admin.model.details', [
             'model' => $fakeModel, 'relations' => $relations, 'fieldArray' => $fieldArray
@@ -220,7 +221,11 @@ class CrudController extends Controller
     {
         $rels = $model->getRelations();
         foreach($rels as $table => $options):
-
+            $fKey = $options['foreign_key'];
+            $relatedModel = ModelHandler::getObject($table);
+            $relatedModel = $relatedModel->find($model->$fKey);
+            // dd($relatedModel, $model->$fkey);
+            if(is_null($model->$fKey)) continue;
         endforeach;
         return [];
     }

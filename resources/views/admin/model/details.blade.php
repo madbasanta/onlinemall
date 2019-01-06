@@ -3,10 +3,10 @@
 		<div class="col-md-4">
 			@foreach($fieldArray as $key => $data)
 			<?php if($key === 'password') continue; ?>
-				<table class="table">
+				<table style="width: 100%;" class="d-table">
 					<tr>
 						<th width="40%">{{ isset($data['label']) ? $data['label'] : ucwords($key) }}</th>
-						<td>{{ $data['options'][$model->$key] ?? $model->$key }}</td>
+						<td>{!! $data['options'][$model->$key] ?? $model->$key !!}</td>
 					</tr>
 				</table>
 			@endforeach

@@ -14,7 +14,7 @@ trait InventoryField {
     ];
     public $fields = [
     	'brand_id' => [
-    		'type' => 'select',
+            'type' => 'select',
     		'label' => 'Brand',
     		'validation' => 'required',
     		'options' => [],
