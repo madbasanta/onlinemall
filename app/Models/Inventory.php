@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\InventoryField;
+use App\Traits\{InventoryField, CommonTraits};
 
 class Inventory extends Model
 {
-    use InventoryField;
+    use InventoryField, CommonTraits;
 
     protected $table='inventories';
     protected $fillable=[

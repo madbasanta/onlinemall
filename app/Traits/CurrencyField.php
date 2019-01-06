@@ -18,7 +18,7 @@ trait CurrencyField {
 	    	'type' => 'checkbox',
 	    	'label' => 'Status',
 	    	'options' => [
-	    		'Active'
+	    		1 => 'Active'
 	    	]
     	]
     ];

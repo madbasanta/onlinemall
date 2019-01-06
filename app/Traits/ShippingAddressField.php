@@ -16,6 +16,6 @@ trait ShippingAddressField {
     	'address_id' => ['type' => 'select', 'label' => 'Address', 'validation' => 'required', 'options' => []],
     	'shipping_charge' => ['type' => 'number', 'label' => 'Shipping Charge', 'validation' => 'required'],
     	'currency_id' => ['type' => 'select', 'label' => 'Currency', 'validation' => 'required', 'options' => []],
-    	'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => ['Active']]
+    	'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => [1 => 'Active']]
     ];
 }

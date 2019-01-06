@@ -1,11 +1,11 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\PasalField;
+use App\Traits\{PasalField, CommonTraits};
 
 class Pasal extends Model
 {
-	use PasalField;
+	use PasalField, CommonTraits;
 
 	protected $table = 'pasals';
 	protected $filable = [

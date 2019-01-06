@@ -17,16 +17,16 @@ trait CategoryField {
     		'validation' => 'required'
     	],
     	'parent_id' => [
-    		'validation' => 'required',
     		'label' => 'Sub Category Of',
     		'type' => 'select',
-    		'options' => []
+    		'options' => [],
+            'select2' => ['table' => 'categories', 'id' => 'id', 'text' => 'name']
     	],
     	'is_active' => [
     		'label' => 'Status',
     		'type' => 'checkbox',
     		'options' => [
-    			'Active'
+    			1 => 'Active'
     		]
     	],
     	'desc' => [
@@ -35,4 +35,6 @@ trait CategoryField {
     		'label' => 'Description',
     	]
     ];
+
+    protected $relationships = [];
 }

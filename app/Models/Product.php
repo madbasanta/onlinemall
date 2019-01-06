@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\ProductField;
+use App\Traits\{ProductField, CommonTraits};
 
 class Product extends Model
 {
-	use ProductField;
+	use ProductField, CommonTraits;
 
 	protected $table = 'products';
 	protected $filable = [

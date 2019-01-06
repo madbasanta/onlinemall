@@ -21,6 +21,11 @@ trait DiscountField {
     	'percent' => [
     		'type' => 'number',
     		'validation' => 'nullable|numeric'
-    	]
+    	],
+        'is_active' => [
+            'type' => 'checkbox',
+            'label' => 'Status',
+            'options' => [1 => 'Active']
+        ]
     ];
 }

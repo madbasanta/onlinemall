@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\ColorField;
+use App\Traits\{ColorField, CommonTraits};
 
 class Color extends Model
 {
-	use ColorField;
+	use ColorField, CommonTraits;
 
 	protected $table='colors';
 	protected $filable = [

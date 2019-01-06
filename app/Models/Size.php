@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\SizeField;
+use App\Traits\{SizeField, CommonTraits};
 
 class Size extends Model
 {
-	use SizeField;
+	use SizeField, CommonTraits;
 
     protected $table='sizes';
 	protected $filable = [

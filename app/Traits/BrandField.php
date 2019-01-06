@@ -19,7 +19,7 @@ trait BrandField {
 			'label' => 'Status',
 			'type' => 'checkbox',
 			'options' => [
-				'1' => 'Active'
+				1 => 'Active'
 			]
 		],
 		'desc' => [

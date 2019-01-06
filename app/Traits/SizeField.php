@@ -8,6 +8,6 @@ trait SizeField {
 	];
 	public $fields = [
 		'size' => ['type' => 'number', 'validation' => 'required|numeric'],
-		'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => ['Active']] 
+		'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => [1 => 'Active']] 
 	];
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Lib\ModelHandler;
 use App\Forms\PostForm;
-use Kris\LaravelFormBuilder\FormBuilder;
 
 class CrudController extends Controller
 {
@@ -25,18 +24,44 @@ class CrudController extends Controller
     */
     public function loadTableData(Request $request)
     {
-    	$mod = ModelHandler::getObject($request->mod);
-    	return ['data' => $mod->get()];
+    	$mod = $request->mod;
+        $model = ModelHandler::getObject($mod);
+        $relations = $model->hasRelation() ? $model->getRelations() : null;
+        $selectables = $relations === null ? '*' : "${mod}.*, " . $this->getSelectables($relations);
+        $data = $model->when($relations, function($query) use($relations, $mod) {
+            foreach ($relations as $table => $data):
+                $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : '';
+                $query->leftjoin($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
+            endforeach;
+        })->selectRaw($selectables)->get();
+    	return ['data' => $data];
+    }
+
+    /*
+    finds selectable columns and concact table name
+    */
+    public function getSelectables($relations)
+    {
+        $selectables = '';
+        $break = '';
+        foreach($relations as $table => $data):
+            $model = ModelHandler::getObject($table);
+            foreach($model->fields as $key => $val):
+                $selectables .= $break . 'COALESCE(' . $table . '.' . $key . ', "-") as ' . $table . '_' . $key;
+                $break = ', ';
+            endforeach;
+        endforeach;
+        return $selectables;
     }
 
     /*
     return form for requested model
     */
-    public function addForm($mod, FormBuilder $formBuilder)
+    public function addForm($mod)
     {
         $model = ModelHandler::getObject($mod);
-        $fieldArray = (new $model)->fields;
-        return view('admin.blueprint.form', compact('fieldArray', 'mod'));
+        $fieldArray = $model->fields;
+        return view('admin.blueprint.form', compact('fieldArray', 'model'));
     }
 
     /*
@@ -44,7 +69,7 @@ class CrudController extends Controller
     */
     public function postForm(Request $request, $mod)
     {
-        $model = $this->getTheModelObject($mod);
+        $model = ModelHandler::getObject($mod);
         $this->validateRequest($request, $model);    
         return $this->saveUpdate($model, $request->all());
     }
@@ -57,15 +82,6 @@ class CrudController extends Controller
         $rules = $this->getRules($model);
         $attributes = $model->heads;
         $request->validate($rules, [], $attributes);
-    }
-
-    /*
-    returns model object of given table
-    */
-    public function getTheModelObject($mod)
-    {
-        $model = ModelHandler::getObject($mod);
-        return new $model();
     }
 
     /*
@@ -87,9 +103,134 @@ class CrudController extends Controller
     {
         foreach ($datas as $key => $val):
             if(isset($model->fields[$key]))
-            $model->$key = $val;
+                $model->$key = $val;
         endforeach;
+        if(isset($model->fields['is_active'])) $model->is_active = isset($datas['is_active']) ? $datas['is_active'] : 0;
         $model->save();
         return $model;
+    }
+
+    /*
+    delete the data from database of given table ($mod)
+    */
+    public function destroy($mod, $id)
+    {
+        $model = ModelHandler::getObject($mod);
+        $model = $model->find($id);
+        if($model) $model->delete();
+        return ['message' => ucfirst(str_singular($mod)) . ' deleted successfully.', 'error' => 0];
+    }
+
+    /*
+    find one row of given table and return edit form
+    */
+    public function editOne($mod, $id)
+    {
+        $model = ModelHandler::getObject($mod);
+        $model = $model->find($id);
+        $fieldArray = $this->loadFieldArray($model->fields, $model);
+        $body = view('admin.blueprint.form', compact('fieldArray', 'model'))->render();
+        return ['title' => title_case(str_singular($mod)) . ' #' . $model->id, 'body' => $body];
+    }
+
+    /*
+    load array of fields with data
+    */
+    public function loadFieldArray($fields, $object)
+    {
+        foreach($fields as $key => $data):
+            if(!isset($data['select2']) || !$object->$key) continue;
+            $options = $data['select2'];
+            $model = ModelHandler::getObject($options['table']);
+            $model = $model->find($object->$key);
+            if(!$model) continue;
+            if(strpos($text = $options['text'], '.') !== false):
+                $text = explode('.', $text);
+                $relationship = $model->getRelationship($table = array_shift($text));
+                if($relationship):
+                    $text = array_pop($text);
+                    $model->$text = $this->rel($relationship, $table, $model, $text);
+                endif;
+            endif;
+            $fields[$key]['options'] = [$model->id => $model->$text];
+        endforeach;
+        return $fields;
+    }
+
+    public function rel($data, $table, $query, $text)
+    {
+        $t = strpos($data['foreign_key'], '.') === false ? $query->getTable() . '.' : '';
+        $data = $query->join($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}")
+            ->select($table . '.' . $text)->where("{$t}id", $query->id)->first();
+        return $data->$text;
+    }
+
+    /*
+    retrieves select2 options from table
+    */
+    public function loadOptions(Request $request, $mod)
+    {
+        $model = ModelHandler::getObject($mod);
+        $relations = $model->hasRelation() ? $model->getRelations() : null;
+        $data = $model->when($request->query, function($query) use($request) {
+            $query->where($request->text, 'like', $request->term . '%');
+        })->when($relations, function($query) use($relations, $mod) {
+            foreach ($relations as $table => $data):
+                $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : '';
+                $query->leftjoin($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
+            endforeach;
+        })->select("${mod}.{$request->id} as id", "{$request->text} as text")
+        ->get();
+        return $data;
+    }
+
+    /*
+    update given data to database
+    */
+    public function updateOne(Request $request, $mod, $id)
+    {
+        $model = ModelHandler::getObject($mod);
+        $this->validateRequest($request, $model);
+        $model = $model->find($id);
+        return $this->saveUpdate($model, $request->all());
+    }
+
+    /*
+    show details of given row from database
+    */
+    public function showOne($mod, $id)
+    {
+        $model = ModelHandler::getObject($mod);
+        $model = $model->find($id);
+        if(!$model) return response(['error' => 1], 500);
+        $fakeModel = ModelHandler::getObject($mod);
+        $fakeModel->fill($model->toArray());
+        $relations = $model->hasRelation() ? $this->callRelations($model) : [];
+        $fieldArray = $this->loadFieldArray($model->fields, $model);
+        $view = view('admin.model.details', [
+            'model' => $fakeModel, 'relations' => $relations, 'fieldArray' => $fieldArray
+        ])->render();
+        return ['title' => title_case(str_singular($mod)) . " #{$id}", 'body' => $view];
+    }
+
+    /*
+    appeend data table to model with relations
+    */
+    public function callRelations($model)
+    {
+        $rels = $model->getRelations();
+        foreach($rels as $table => $options):
+
+        endforeach;
+        return [];
+    }
+
+    /*
+    load sub add form
+    */
+    public function loadSubForm($mod)
+    {
+        $form = $this->addForm($mod);
+        return view('admin.model.sub-add-form', compact('form', 'mod'));
     }
 }

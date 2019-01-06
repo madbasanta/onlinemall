@@ -14,7 +14,7 @@ trait ColorField {
 			'type' => 'checkbox',
 			'label' => 'Status',
 			'options' => [
-				'Active'
+				1 => 'Active'
 			]
 		]
 	];

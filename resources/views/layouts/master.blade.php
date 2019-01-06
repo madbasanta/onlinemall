@@ -23,8 +23,7 @@
 	<script>
 		document.addEventListener('click', function(e) {
 			let element = e.target || e.srcElement;
-			if(element.id !== 'iamtoggler' && !element.closest('#iamtoggler')) return;
-			element = element.closest('#iamtoggler') || element;
+			if(element.matches('#iamtoggler') === false) return;
 			let target = element.querySelector('.fas');
 			if(element.classList.contains('collapsed') === false) {
 				target.classList.remove('fa-ellipsis-h');

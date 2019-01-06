@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('code')->nullable();
             $table->string('name')->nullable();
-            $table->string('desc')->nullable();
+            $table->longText('desc')->nullable();
             $table->boolean('is_sub')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
             $table->boolean('is_active')->nullable();

@@ -12,6 +12,9 @@ trait ProductField {
 	public $fields = [
 		'code' => ['validation' => 'required'],
 		'name' => ['validation' => 'required'],
-		'category_id' => ['type' => 'select', 'label' => 'Category', 'options' => []]
+		'category_id' => ['type' => 'select', 'label' => 'Category', 'options' => [], 'select2' => [
+			'table' => 'categories', 'id' => 'id', 'text' => 'name'
+		]],
+		'desc' => ['type' => 'textarea', 'validation' => 'required', 'label' => 'Description']
 	];
 }

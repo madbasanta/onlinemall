@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\ShippingAddressField;
+use App\Traits\{ShippingAddressField, CommonTraits};
 
 class ShippingAddress extends Model
 {
-    use ShippingAddressField;
+    use ShippingAddressField, CommonTraits;
     
     protected $table='shipping_addresses';
     protected $fillable=[

@@ -13,7 +13,11 @@ trait PasalField {
 	public $fields = [
 		'name' => ['validation' => 'required'],
 		'email' => ['type' => 'email', 'validation' => 'required|email|unique:users,email'],
-		'contact' => ['validation' => 'required|numeric'],
-		'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => ['Active']]
+		'password' => [
+			'type' => 'password',
+			'validation' => 'required|min:8|confirmed',
+			'label' => 'Password'
+		],
+		'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => [1 => 'Active']]
 	];
 }

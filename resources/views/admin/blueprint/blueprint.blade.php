@@ -46,6 +46,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
+
+        <div class="modal" id="cModal">
+            
+        </div>
+
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
@@ -589,6 +594,8 @@
         <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         {{-- select2 --}}
         <script type="text/javascript" src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+        <!-- TEXT EDITOR -->
+        <script type="text/javascript" src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
         <!-- DataTables -->
         <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>

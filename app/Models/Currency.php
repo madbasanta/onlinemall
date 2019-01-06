@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\CurrencyField;
+use App\Traits\{CurrencyField, CommonTraits};
 
 class Currency extends Model
 {
-    use CurrencyField;
+    use CurrencyField, CommonTraits;
     
     protected $table ='currencies';
     protected $fillable = [

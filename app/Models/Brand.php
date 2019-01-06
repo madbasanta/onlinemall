@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BrandField;
+use App\Traits\{BrandField, CommonTraits};
 
 class Brand extends Model
 {
-	use BrandField;
+	use BrandField, CommonTraits;
 	
     protected $table = 'brands';
 	protected $filable = [
-		'id',
 		'code', 
 		'name', 
 		'desc',

@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\DiscountField;
+use App\Traits\{DiscountField, CommonTraits};
 
 class Discount extends Model
 {
-    use DiscountField;
+    use DiscountField, CommonTraits;
 
     protected $table ='discounts';
     protected $fillable = [

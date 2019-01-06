@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\AddressField;
+use App\Traits\{AddressField, CommonTraits};
 
 class Address extends Model
 {
-    use AddressField;
+    use AddressField, CommonTraits;
     
     protected $table ='addresses';
     protected $fillable = [

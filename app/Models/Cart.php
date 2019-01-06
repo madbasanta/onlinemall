@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\CartField;
+use App\Traits\{CartField, CommonTraits};
 
 class Cart extends Model
 {
-    use CartField;
+    use CartField, CommonTraits;
     
     protected $table ='carts';
     protected $fillable = [

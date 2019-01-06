@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\OrderField;
+use App\Traits\{OrderField, CommonTraits};
 
 class Order extends Model
 {
-	use OrderField;
+	use OrderField, CommonTraits;
 	
     protected $table = 'orders';
     protected $fillable = [

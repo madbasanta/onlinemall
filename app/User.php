@@ -2,15 +2,14 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use  Illuminate\Foundation\Auth\User as Authenticable;
-use App\Traits\UserField;
+use App\Traits\{UserField, AttributeFormatter, CommonTraits};
 
 class User extends Authenticable
 {
-	use UserField;
+	use UserField, AttributeFormatter, CommonTraits;
 
 	protected $table = 'users';
 	protected $fillable = [
-			'id',
 			'name',
 			'email',
 			'password',

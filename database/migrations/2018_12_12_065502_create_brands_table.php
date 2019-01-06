@@ -17,7 +17,7 @@ class CreateBrandsTable extends Migration
             $table->increments('id');
             $table->string('code')->nullable();
             $table->string('name')->nullable();
-            $table->string('desc')->nullable();
+            $table->longText('desc')->nullable();
             $table->boolean('is_active')->nullable();
             $table->timestamps();
         });

@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\CategoryField;
+use App\Traits\{CategoryField, CommonTraits};
 
 class Category extends Model
 {
-	use CategoryField;
+	use CategoryField, CommonTraits;
 
     protected $table = 'categories';
     protected $fillable = ['code', 'name', 'desc', 'is_sub', 'parent_id', 'is_active'];

@@ -19,7 +19,7 @@ class Admin
         if(Auth::check() && Auth::user()->hasRoleId(1))
             return $next($request);
         else if(!Auth::check())
-            return redirect('/login');
-            return back();
+            return redirect()->guest('login');
+        return back();
     }
 }
