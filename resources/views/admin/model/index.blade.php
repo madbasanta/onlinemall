@@ -51,7 +51,7 @@
 				targets: -1,
 				data: null,
 				defaultContent: `<button class="btn btn-xs goto-details" type="button" title="View"><i class="fa fa-eye"></i></button>
-								<button class="btn btn-xs btn-primary edit-row" type="button" title="Edit"><i class="fa fa-pencil"></i></button>
+					<button class="btn btn-xs btn-primary edit-row" type="button" title="Edit"><i class="fa fa-pencil"></i></button>
 								<button class="btn btn-xs btn-danger delete-row" type="button" title="Delete"><i class="fa fa-times"></i></button>`
 			}],
 			createdRow: (row, data) => {row.dataset.id = data.id; row.dataset.mod = data.id;}
@@ -68,7 +68,11 @@
 			editAction.call(this, '{{ str_singular($model->getTable()) }}', '{{ $model->getTable() }}');
 		});
 		$(document).off('click', '.goto-details').on('click', '.goto-details', function(e) {
-			showDetails(this, '{{ $model->getTable() }}');
-		});
+			let samePageTables = ['orders','inventories','pasals','discounts'];
+			let currentTable = '{{ $model->getTable() }}';
+			if(samePageTables.indexOf(currentTable) === -1)
+				showDetails(this, '{{ $model->getTable() }}');
+			else showStaticDetails(this, '{{ $model->getTable() }}');
+		})
 	});
 </script>

@@ -18,7 +18,7 @@ class CreatePasalsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->timestamp('contact')->nullable();
+            $table->string('contact')->nullable();
             $table->boolean('is_active')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->rememberToken();

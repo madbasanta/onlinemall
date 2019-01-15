@@ -218,7 +218,7 @@ function editAction(single, table) {
 
 function showDetails(btn, table) {
 	let id = typeof btn === 'number' ? btn : btn.closest('tr').dataset.id;
-	let loc = '#mod-'+ table + '-' + id;
+	let loc = '#mod-'+ table +  '-' + id;
 	location.replace(loc);
 	createNewTab({
 		divId: '#details-mod-'+ id,
@@ -231,4 +231,18 @@ function showDetails(btn, table) {
 			$(props.divId).html(resp.body);
 		}, err => alert('Error ! Please contact support.'));
 	});
+} 
+function showStaticDetails (btn,table) {
+	let id = typeof btn ==='number' ? btn : btn.closest('tr').dataset.id;
+	let loc = '#mod-'+table+'-'+id;
+	location.replace(loc);
+
+
+	 (function(props) {
+		$.get('/admin/static/'+ table +'/'+ id).then(resp => {
+			$('#content-wrapper').html(resp);
+		}, err => alert('Error ! Please contact support.'));
+	})();
+
+
 }

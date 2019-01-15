@@ -21,4 +21,9 @@ class Address extends Model
         'is_active'
     ];
 
+    public function PasalAddress() 
+    {
+        return $this->hasMany('App\Models\PasalAddress');
+    }
+
 }

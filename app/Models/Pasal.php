@@ -17,4 +17,15 @@ class Pasal extends Model
 		'verified_at'
 	];
 	protected $hidden = ['password'];
+
+
+    public function inventory()
+    {
+    	return $this->hasMany('App\Models\Inventory');
+    }
+
+     public function pasalAddress()
+    {
+    	return $this->hasMany('App\Models\PasalAddress');
+    }
 }

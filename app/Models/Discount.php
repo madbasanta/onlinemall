@@ -11,10 +11,15 @@ class Discount extends Model
 
     protected $table ='discounts';
     protected $fillable = [
-        'tittle',
+        'title',
         'amount',
         'percent',
         'is_amount',
         'is_active',
     ];
+
+    public function inventory()
+    {
+    	return $this->hasMany('App\Models\Inventory');
+    }
 }

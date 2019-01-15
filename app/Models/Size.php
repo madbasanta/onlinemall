@@ -14,4 +14,10 @@ class Size extends Model
 		'size', 
 		'is_active'
 	];
+
+	
+    public function inventory()
+    {
+    	return $this->hasMany('App\Models\Inventory');
+    }
 }

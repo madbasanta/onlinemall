@@ -16,4 +16,9 @@ class Brand extends Model
 		'desc',
 		'is_active'
 	];
+	
+    public function inventory()
+    {
+    	return $this->hasMany('App\Models\Inventory');
+    }
 }
