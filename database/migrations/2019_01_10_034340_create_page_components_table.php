@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasalsTable extends Migration
+class CreatePageComponentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreatePasalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pasals', function (Blueprint $table) {
+        Schema::create('page_components', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('contact')->nullable();
-            $table->boolean('is_active')->nullable();
-            $table->timestamp('verified_at')->nullable();
-            $table->rememberToken();
+            $table->longText('data');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ class CreatePasalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pasals');
+        Schema::dropIfExists('page_components');
     }
 }

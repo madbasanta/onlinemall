@@ -20,7 +20,7 @@
 												<img class="img-fluid" src="https://picsum.photos/320/{{ 200 + $i }}" alt="falano pasal image">
 											</div>
 											<div>
-												<p class="p-2 clamp text-left m-0" data-lines="2" style="line-height: 1rem;">Pasal name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, dicta.</p>
+												<p class="text-left m-2" style="line-height: 1.3em;height: 2.6em;overflow: hidden;">Pasal name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, dicta.</p>
 											</div>
 										</div>
 									</div>

@@ -6,7 +6,7 @@ trait CategoryField {
     	'code' => 'Code',
     	'name' => 'Name',
     	'is_sub' => 'Sub',
-    	'parent_id' => 'Parent',
+    	'categories_name' => 'Parent',
     	'is_active' => 'Status',
     ];
     public $fields = [
@@ -36,5 +36,7 @@ trait CategoryField {
     	]
     ];
 
-    protected $relationships = [];
+    protected $relationships = [
+        'categories' => ['primary_key' => 'id', 'foreign_key' => 'parent_id']
+    ];
 }

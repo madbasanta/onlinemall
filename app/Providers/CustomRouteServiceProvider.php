@@ -54,6 +54,10 @@ class CustomRouteServiceProvider extends ServiceProvider
         Route::middleware('web')
              ->namespace($this->namespace . '\Frontend')
              ->group(base_path('routes/route_frontend.php'));
+
+        Route::middleware('web')
+             ->namespace($this->namespace . '\PageComponent')
+             ->group(base_path('routes/route_component.php'));
     }
 
     /**

@@ -1,22 +1,35 @@
+
+$.fn.loader = function(style = null, text = true) {
+	let loader = '<div class="loading" style="'+ (style || 'height:100px;margin-top: 200px;') +'">\
+	                <span class="loader fa-spin"></span>\
+	            </div>';
+	if(text) loader += '<div>\
+			                <h4 class="text-center text-white">Loading</h4>\
+			            </div>';
+	return this.html(loader);
+}
+
 /* page from sidebar */
 $(document).on('click', '#models-tree li a', function(e) {
 	e.preventDefault();
 	active_link(this.parentElement);
 	location.replace(this.dataset.id);
+	$('#content-wrapper').loader('height:400px;');
 	$.ajax({url: this.href}).then(resp => {
 		$('#content-wrapper').html(resp);
 	});
 });
 
+
 function active_link(el) {
 	if(!el) return;
 	if(!$(el).is('li')) el = el.closest('li');
 	$(el).siblings('li').removeClass('active');
-	el.className = 'active';
+	el.classList.add('active');
 	let parent = el.closest('ul').closest('li');
 	if(!parent) return;
 	$(parent).siblings('li').removeClass('active');
-	parent.className = 'active';
+	parent.classList.add('active');
 }
 
 (function(url, id) {
@@ -29,6 +42,7 @@ function active_link(el) {
 	if(!el) return;
 	active_link(el);
 	url = el_url.split('-').join('/');
+	$('#content-wrapper').loader('height:400px;');
 	$.ajax({url: '/admin/'+ url}).then(resp => {
 		$('#content-wrapper').html(resp);
 		if(2 in btn) {
@@ -38,11 +52,6 @@ function active_link(el) {
 		}
 	});
 })(location.href, '');
-
-$('li', '.sidebar-menu').on('click', function(e) {
-	$(this).siblings('li').removeClass('active');
-	this.className = 'active';
-});
 
 function createNewTab(props, callback = '') {
 	let tab_holder = $('#mod-nav-tabs');
@@ -89,15 +98,6 @@ $.fn.appnedContent = function(props) {
 		</div>
 	`);
 	return this;
-}
-$.fn.loader = function() {
-	let loader = '<div class="loading" style="height:100px;margin-top: 200px;">\
-	                <span class="loader fa-spin"></span>\
-	            </div>\
-	            <div>\
-	                <h4 class="text-center text-white">Loading</h4>\
-	            </div>';
-	return this.html(loader);
 }
 
 /*

@@ -39,3 +39,6 @@ span.loader {
 }
 
 .d-table td, .d-table th{ padding: 5px 15px; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    color: #0e0e0e;
+}

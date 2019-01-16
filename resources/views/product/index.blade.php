@@ -25,10 +25,15 @@
 							<div class="product-stock text-success mt-2">
 								(In Stock)
 							</div>
+							<h1 class="h5 bg-success text-white p-2 text-center mt-2">
+								Call & Order
+								<i class="fa fa-phone fa-xs"></i>
+								9806565456
+							</h1>
 						</div>
 					</div>
 					<div class="col-sm-4 bg-light">
-						<div class="px-3 pt-3">
+						<div class="px-3 pt-2">
 							<h1 class="h5 clearfix text-muted">Delivery Options <i class="fa fa-info-circle float-right fa-xs"></i></h1>
 							<p><i class="fa text-muted fa-map-marker-alt fa-lg" style="width: 30px;"></i> Bagmati, Mechi, Koshi</p>
 							<p><i class="fa text-muted fa-truck fa-lg" style="width: 30px;"></i> Home Delivery</p>
@@ -47,7 +52,7 @@
 	</div>
 </section>
 <section id="product-description">
-	<div class="container">
+	<div class="container p-0">
 		<div class="bg-white my-3">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item w-50">
