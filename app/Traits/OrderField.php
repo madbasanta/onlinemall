@@ -12,13 +12,13 @@ trait OrderField {
 	];
 
 	public $fields = [
-		'inventory_id' => [
-			'type' => 'select',
-			'label' => 'Inventory',
-			'validation' => 'required',
-			'options' => [],
-			'select2' => ['table' => 'inventories', 'id' => 'id', 'text' => 'products.name']
-		],
+		// 'inventory_id' => [
+		// 	'type' => 'select',
+		// 	'label' => 'Inventory',
+		// 	'validation' => 'required',
+		// 	'options' => [],
+		// 	'select2' => ['table' => 'inventories', 'id' => 'id', 'text' => 'products.name']
+		// ],
 		'quantity' => [
 			'type' => 'number',
 			'validation' => 'required|numeric',
@@ -44,7 +44,7 @@ trait OrderField {
 
 	protected $relationships = [
 		'currencies' => ['primary_key' => 'id', 'foreign_key' => 'currency_id'],
-		'inventories' => ['primary_key' => 'id', 'foreign_key' => 'inventory_id'],
+		// 'inventories' => ['primary_key' => 'id', 'foreign_key' => 'inventory_id'],
 		'products' => ['primary_key' => 'id', 'foreign_key' => 'inventories.product_id']
 	];
 }

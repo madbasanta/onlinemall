@@ -15,4 +15,14 @@ class Currency extends Model
 		'tittle',
 		'is_active'
     ];
+
+    public function inventory()
+    {
+    	return $this->hasMany('App\Models\Inventory');
+    }
+
+    public function order()
+    {
+    	return $this->hasMany('App\Models\Order');
+    }
 }

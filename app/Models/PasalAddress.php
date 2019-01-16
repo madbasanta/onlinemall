@@ -13,4 +13,13 @@ class PasalAddress extends Model
 		'address_id',
 		'is_active'
     ];
+
+      public function pasal() 
+    {
+    	return $this->belongsTo('App\Models\Pasal');
+    }
+        public function address() 
+    {
+    	return $this->belongsTo('App\Models\Address');
+    }
 }

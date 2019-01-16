@@ -14,4 +14,8 @@ class Color extends Model
 		'color', 
 		'is_active'
 	];
+	public function inventory() 
+	{
+			return $this->hasMany('App\Models\Inventory');
+	}
 }
