@@ -360,9 +360,6 @@
                         <li class="active">
                             <a href="#">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
                             </a>
                         </li>
                         <li class="treeview">
@@ -373,22 +370,6 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu" id="models-tree">
-                                <!--li><a href="admin/categories"><i class="fa fa-circle-o"></i> Categories</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Products</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Inventories</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Pasals</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Carts</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Brands</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Sizes</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Colors</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Currencies</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Orders</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Discounts</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Shipping Addresses</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Addresses</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Users</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> User Adresses</a></li>
-                                <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Pasal Addresses</a></li-->
                                 @foreach($models as $mod)
                                     <li>
                                         <a href="{{ $mod->getTable()?admin_url('mod/'.$mod->getTable()):'javascript:void(0)' }}" data-id="#mod-{{ $mod->getTable() }}">
@@ -398,6 +379,23 @@
                                     </li>
                                 @endforeach
                             </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-list"></i> <span>Pages</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                             <ul class="treeview-menu" id="pages-tree">
+                                 @foreach($components as $component)
+                                 <li>
+                                     <a href="admin/component/{{ $component }}" data-id="#component-{{ $component }}">
+                                         <i class="fa fa-circle-o"></i> {{ ucwords($component) }}
+                                     </a>
+                                 </li>
+                                 @endforeach
+                             </ul>
                         </li>
                     </ul>
                 </section>

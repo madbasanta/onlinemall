@@ -12,11 +12,11 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['code', 'name', 'desc', 'is_sub', 'parent_id', 'is_active'];
 
-
+    public function children() {
+    	return $this->hasMany(static::class, 'parent_id', 'id');
+    }
     public function product()
     {
     	return $this->hasMany('App\Models\Category');
     }
-
 }
-

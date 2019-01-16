@@ -30,8 +30,9 @@ class CrudController extends Controller
         $selectables = $relations === null ? '*' : "${mod}.*, " . $this->getSelectables($relations);
         $data = $model->when($relations, function($query) use($relations, $mod) {
             foreach ($relations as $table => $data):
-                $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : '';
-                $query->leftjoin($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
+                $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : 'alias_';
+                $alias = 'alias_'. $table;
+                $query->leftjoin($table .' as '. $alias, "{$alias}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
             endforeach;
         })->selectRaw($selectables)->get();
     	return ['data' => $data];
@@ -47,7 +48,8 @@ class CrudController extends Controller
         foreach($relations as $table => $data):
             $model = ModelHandler::getObject($table);
             foreach($model->fields as $key => $val):
-                $selectables .= $break . 'COALESCE(' . $table . '.' . $key . ', "-") as ' . $table . '_' . $key;
+                $alias = 'alias_' . $table;
+                $selectables .= $break . 'COALESCE(' . $alias . '.' . $key . ', "-") as ' . $table . '_' . $key;
                 $break = ', ';
             endforeach;
         endforeach;
@@ -176,6 +178,7 @@ class CrudController extends Controller
             $query->where($request->text, 'like', $request->term . '%');
         })->when($relations, function($query) use($relations, $mod) {
             foreach ($relations as $table => $data):
+                if($mod === $table) return;
                 $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : '';
                 $query->leftjoin($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
             endforeach;

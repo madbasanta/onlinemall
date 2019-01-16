@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Lib\ModelHandler;
+use App\Lib\{ModelHandler, PageHandler};
+use App\Models\{PageComponent, Pasal, Product};
 
 class HomeController extends Controller
 {
@@ -24,7 +25,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $banner = PageHandler::getComponent('banner');
+        $pasals = PageHandler::getComponent('pasals');
+        $topShops = $this->getTopShops();
+        $offerProducts = $this->getOfferProducts();
+        return view('index', compact('banner', 'pasals', 'topShops', 'offerProducts'));
+    }
+
+    /*
+    top shops at home page
+    */
+    public function getTopShops() {
+        return Pasal::orderByDesc('name')->limit(4)->get();
+    }
+    /*
+    offer proucts at home page
+    */
+    public function getOfferProducts() {
+        return Product::orderByDesc('id')->limit(4)->get();
     }
 
     /*
@@ -34,6 +52,7 @@ class HomeController extends Controller
     {
         return view('admin.index', [
             'models' => $this->getModels(),
+            'components' => $this->getComponents()
         ]);
     }
 
@@ -43,10 +62,21 @@ class HomeController extends Controller
     public function getModels()
     {
         $models = array();
-        foreach(ModelHandler::$models as $mod):
+        foreach (ModelHandler::$models as $mod):
             array_push($models, new $mod);
         endforeach;
-        // dd($models);
         return $models;
+    }
+
+    /*
+    get page components
+    */
+    public function getComponents()
+    {
+        $components = array();
+        foreach (PageComponent::all() as $component):
+            array_push($components, $component->name);
+        endforeach;
+        return $components;
     }
 }

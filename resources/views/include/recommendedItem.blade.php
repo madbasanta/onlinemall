@@ -12,8 +12,13 @@
 							<img class="img-fluid" src="https://picsum.photos/350/{{ 345 + $i }}" alt="item pic">
 						</div>
 						<div class="text-left px-1">
-							<p style="line-height: 1rem;" class="clamp mt-3" data-lines=2>Product name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quis.</p>
-							<p style="line-height: 1rem;" class="text-danger font-weight-bold">Rs.&nbsp;{{ rand(100, 999) }}</p>
+							<p style="line-height: 1.25em;height: 2.5em;overflow: hidden;" class="mb-2">Product name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quis.</p>
+							<p style="line-height: 2em;" class="text-danger font-weight-bold clearfix px-2">
+								Rs.&nbsp;{{ rand(100, 999) }}
+								<button class="btn btn-sm btn-outline-secondary float-right">
+									Buy
+								</button>
+							</p>
 						</div>
 					</div>
 				</div>

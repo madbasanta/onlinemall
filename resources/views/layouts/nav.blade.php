@@ -5,7 +5,7 @@
         </button>
         <a class="navbar-brand" href="{{ url('/') }}">
             <div>
-                <img src="favicon.png" alt="{{ config('app.name') }} logo" class="img-fluid rounded" style="max-width: 100px">
+                <img src="{{ asset('favicon.png') }}" alt="{{ config('app.name') }} logo" class="img-fluid rounded" style="max-width: 100px">
             </div>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
@@ -15,7 +15,7 @@
             </form>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item mr-lg-2">
-                    <a class="nav-link px-sm-3" href="javascript:void(0)">
+                    <a class="nav-link px-sm-3" href="{{ url('/cart') }}">
                         <i class="fas fa-shopping-cart"></i>&nbsp;<span class="float-right">0</span>
                     </a>
                 </li>
@@ -33,46 +33,7 @@
                             <i class="fa fa-list"></i>&nbsp;
                             Categories
                         </button>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-submenu">
-                                <a class="test dropdown-toggle" tabindex="-1" href="#">Electronic</a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu">
-                                        <a class="test dropdown-toggle" href="#" tabindex="-1">Electronice Devices</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" tabindex="-1">Mobile</a></li>
-                                            <li><a href="#" tabindex="-1">Tablets</a></li>
-                                            <li><a href="#" tabindex="-1">Laptops</a></li>
-                                            <li><a href="#" tabindex="-1">Desktop</a></li>
-                                            <li><a href="#" tabindex="-1">Camera</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a href="#" class="test dropdown-toggle" tabindex="-1">Electronic Accessories</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" tabindex="-1">Mobile & Tablets</a></li>
-                                            <li><a href="#" tabindex="-1">Laptops & Desktops</a></li>
-                                            <li><a href="#" tabindex="-1">Camera</a></li>
-                                            <li><a href="#" tabindex="-1">Routers</a></li>
-                                            <li><a href="#" tabindex="-1">Wires & Cables</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu">
-                                <a class="test dropdown-toggle" tabindex="-1" href="#">Home Applience</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#" tabindex="-1">Refrigirator</a></li>
-                                    <li><a href="#" tabindex="-1">Chimni</a></li>
-                                    <li><a href="#" tabindex="-1">Heater</a></li>
-                                    <li><a href="#" tabindex="-1">Washing Machine</a></li>
-                                    <li><a href="#" tabindex="-1">Mixture & Blenders</a></li>
-                                    <li><a href="#" tabindex="-1">Rice Cooker</a></li>
-                                    <li><a href="#" tabindex="-1">A/C & Fans</a></li>
-                                    <li><a href="#" tabindex="-1">TV</a></li>
-                                    <li><a href="#" tabindex="-1">Iron</a></li>
-                                </ul>
-                            </li>
+                        <ul class="dropdown-menu" id="categories-dropdown">
                         </ul>
                     </div>
                 </div>
@@ -93,7 +54,7 @@
                     @else
                     <li class="nav-item mr-sm-2">
                         <a class="nav-link px-sm-3" href="javascript:void(0)">
-                            <span style="display: inline-block;background-image: url({{ url('favicon.png') }});width: 40px;background-repeat: no-repeat;height: 40px;border-radius: 50%;background-size: 100% 100%;position: absolute;top: 0;left: 0;"></span>
+                            {{-- <span style="display: inline-block;background-image: url({{ url('favicon.png') }});width: 40px;background-repeat: no-repeat;height: 40px;border-radius: 50%;background-size: 100% 100%;position: absolute;top: 0;left: 0;"></span> --}}
                             <span class="d-sm-inline d-none">&nbsp;&nbsp;&nbsp;<span class="d-sm-none d-lg-inline d-md-inline d-xl-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                             <span class="d-sm-none d-inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <span class="d-sm-none d-lg-inline d-md-inline d-xl-inline">
@@ -116,44 +77,3 @@
 <form action="{{ route('logout') }}" method="post" id="logout-form">
     @csrf
 </form>
-@section('script')
-<script>
-    function isScrolledIntoView(elem)
-    {
-        var docViewTop = $(window).scrollTop();
-        var docViewBottom = docViewTop + $(window).height();
-
-        var elemTop = $(elem).offset().top;
-        var elemBottom = elemTop + $(elem).height();
-
-        return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
-    }
-    function doFunc()
-    {
-        let main_nav = $('#main-nav');
-        if(main_nav.length === 0) return;
-        if(!isScrolledIntoView(main_nav[0])) main_nav.addClass('fixed-top mt-4').closest('body').addClass('nav-is-fixed');
-    }
-    function notDoFunc()
-    {
-        let main_nav = $('#main-nav');
-        if(main_nav.length === 0) return;
-        main_nav.removeClass('fixed-top mt-4').closest('body').removeClass('nav-is-fixed');
-    }
-    $(function() {
-        $('.dropdown-submenu a.test').on("click", function(e) {
-            $(this).next('ul').toggle();
-            $(this).closest('li').siblings('li').find('.dropdown-menu').hide();
-            e.stopPropagation();
-            e.preventDefault();
-        });
-        let last_scroll = 0;
-        $(window).scroll(function(e) {
-            let current_scroll = $(this).scrollTop();
-            if(last_scroll > current_scroll) doFunc();
-            else notDoFunc();
-            last_scroll = current_scroll;
-        });
-    });
-</script>
-@endsection

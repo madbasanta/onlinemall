@@ -6,15 +6,18 @@ trait ProductField {
 	public $heads = [
 		'code' => 'Code',
 		'name' => 'Name',
-		'category_id' => 'Category'
+		'categories_name' => 'Category'
 	];
 
 	public $fields = [
-		'code' => ['validation' => 'required'],
 		'name' => ['validation' => 'required'],
 		'category_id' => ['type' => 'select', 'label' => 'Category', 'options' => [], 'select2' => [
 			'table' => 'categories', 'id' => 'id', 'text' => 'name'
 		]],
 		'desc' => ['type' => 'textarea', 'validation' => 'required', 'label' => 'Description']
+	];
+
+	protected $relationships = [
+		'categories' => ['primary_key' => 'id', 'foreign_key' => 'category_id']
 	];
 }
