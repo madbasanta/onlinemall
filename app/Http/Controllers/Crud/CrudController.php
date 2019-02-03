@@ -153,7 +153,25 @@ class CrudController extends Controller
                     $text = array_pop($text);
                     $model->$text = $this->rel($relationship, $table, $model, $text);
                 endif;
+            elseif(strpos($text, ',') !== false):
+                $cols = explode(',', $text);
+                $cols = array_filter($cols, function($arr) {
+                    return strpos($arr, '(') !== false ?: strpos($arr, ')') !== false;
+                });
+                $cols = array_map(function($arr) {
+                    if(strpos($arr, '(') !== false)
+                        return explode('(', $arr)[1];
+                    if(strpos($arr, ')') !== false)
+                        return explode(')', $arr)[0];
+                }, $cols);
+                $text = implode('_', $cols);
+                $model->$text = '';
+                foreach($cols as $index):
+                    $model->$text .= $model->$index . ' ';
+                endforeach;
             endif;
+            if(gettype($text) === 'array')
+                $text = array_pop($text);
             $fields[$key]['options'] = [$model->id => $model->$text];
         endforeach;
         return $fields;
@@ -175,14 +193,16 @@ class CrudController extends Controller
         $model = ModelHandler::getObject($mod);
         $relations = $model->hasRelation() ? $model->getRelations() : null;
         $data = $model->when($request->query, function($query) use($request) {
-            $query->where($request->text, 'like', $request->term . '%');
+            $cols = explode(',', $request->text);
+            $cols = explode('(', $cols[0]);
+            $query->where(array_pop($cols), 'like', $request->term . '%');
         })->when($relations, function($query) use($relations, $mod) {
             foreach ($relations as $table => $data):
                 if($mod === $table) return;
                 $t = strpos($data['foreign_key'], '.') === false ? $mod . '.' : '';
                 $query->leftjoin($table, "{$table}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
             endforeach;
-        })->select("${mod}.{$request->id} as id", "{$request->text} as text")
+        })->selectRaw("${mod}.{$request->id} as id, {$request->text} as text")
         ->get();
         return $data;
     }

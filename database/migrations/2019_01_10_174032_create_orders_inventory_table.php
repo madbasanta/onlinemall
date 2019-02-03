@@ -13,12 +13,15 @@ class CreateOrdersInventoryTable extends Migration
      */
     public function up()
     {
+        Schema::table('orders', function(Blueprint $table) {
+            $table->boolean('shipped')->default(0)->after('type');
+        });
         Schema::create('order_inventory', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('inventory_id');
             $table->integer('quantity');
-            $table->integer('price');
+            $table->double('price');
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('inventory_id')->references('id')->on('inventories');
 
@@ -33,6 +36,10 @@ class CreateOrdersInventoryTable extends Migration
      */
     public function down()
     {
+        
+        Schema::table('orders', function(Blueprint $table) {
+            $table->dropColumn('shipped');
+        });
         Schema::dropIfExists('order_inventory');
     }
 }

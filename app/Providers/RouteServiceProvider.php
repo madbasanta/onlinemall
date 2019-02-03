@@ -63,11 +63,11 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace . '\Category')
             ->group(base_path('routes/route_frontend.php'));
 
-        Route::middleware('web')
+        Route::middleware(['web', 'admin'])
             ->namespace($this->namespace . '\Crud')
             ->group(base_path('routes/route_crud.php'));
 
-        Route::middleware('web')
+        Route::middleware(['web', 'admin'])
             ->namespace($this->namespace . '\Order')
             ->group(base_path('routes/route_order.php'));
 
@@ -77,12 +77,12 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/route_inventory.php'));
 
 
-        Route::middleware('web')
+        Route::middleware(['web', 'admin'])
             ->namespace($this->namespace . '\Pasal')
             ->group(base_path('routes/route_pasal.php'));
 
 
-        Route::middleware('web')
+        Route::middleware(['web', 'admin'])
             ->namespace($this->namespace . '\Discount')
             ->group(base_path('routes/route_discount.php'));
 

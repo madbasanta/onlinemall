@@ -16,7 +16,8 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.scripts([
 	'resources/js/crud.js',
-	'resources/js/page.js'
+	'resources/js/page.js',
+	'resources/js/inventory.js'
 ], 'public/js/custom_app.js');
 
 mix.styles([

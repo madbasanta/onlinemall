@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<p class="text-center">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab repellat dolor voluptates in dicta quos, omnis sit corporis provident. Asperiores, dolores, mollitia. Neque, dolorem, tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio at sit accusamus similique animi odit veniam blanditiis pariatur esse atque iure aspernatur, culpa ut assumenda!
+				Thank you for being with us. Fill the form below with your details. We will contact you as soon as possible.
 			</p>
 		</div>
 		<div>
@@ -26,66 +26,49 @@
 		        <div class="col-md-5 order-md-2 mb-4">
 		          <h4 class="d-flex justify-content-between align-items-center mb-3">
 		            <span class="text-muted">Your cart</span>
-		            <span class="badge badge-secondary badge-pill">3</span>
+		            <a class="badge badge-secondary badge-pill" href="{{ url('cart') }}">
+		            	<i class="fa fa-shopping-cart"></i>
+		            	<span class="cart-text">0</span>
+		            </a>
 		          </h4>
-		          <ul class="list-group mb-3">
-		            <li class="list-group-item d-flex justify-content-between lh-condensed">
-		              <div>
-		                <h6 class="my-0">Product name</h6>
-		                <small class="text-muted">Brief description</small>
-		              </div>
-		              <span class="text-muted">$12</span>
-		            </li>
-		            <li class="list-group-item d-flex justify-content-between lh-condensed">
-		              <div>
-		                <h6 class="my-0">Second product</h6>
-		                <small class="text-muted">Brief description</small>
-		              </div>
-		              <span class="text-muted">$8</span>
-		            </li>
-		            <li class="list-group-item d-flex justify-content-between lh-condensed">
-		              <div>
-		                <h6 class="my-0">Third item</h6>
-		                <small class="text-muted">Brief description</small>
-		              </div>
-		              <span class="text-muted">$5</span>
-		            </li>
-		            <li class="list-group-item d-flex justify-content-between bg-light">
-		              <div class="text-success">
-		                <h6 class="my-0">Promo code</h6>
-		                <small>EXAMPLECODE</small>
-		              </div>
-		              <span class="text-success">-$5</span>
-		            </li>
-		            <li class="list-group-item d-flex justify-content-between">
-		              <span>Total (USD)</span>
-		              <strong>$20</strong>
-		            </li>
+		          <ul class="list-group mb-3" id="cartItemList">
+		           
 		          </ul>
 
 		          <form class="card p-2">
 		            <div class="input-group">
-		              <input type="text" class="form-control" placeholder="Promo code">
+		              <input type="text" class="form-control" disabled="" placeholder="Promo code">
 		              <div class="input-group-append">
-		                <button type="submit" class="btn btn-secondary">Redeem</button>
+		                <button type="submit" class="btn btn-secondary" disabled="">Redeem</button>
 		              </div>
 		            </div>
 		          </form>
 		        </div>
 		        <div class="col-md-7 order-md-1">
-		          <h4 class="mb-3">Billing address</h4>
-		          <form class="needs-validation" novalidate="">
+		          <h4 class="mb-3">Shipping Information</h4>
+		          <?php
+			          $name = explode(' ', Auth::user()->name);
+			          $last_name = array_pop($name);
+			          $first_name = sizeof($name) > 0 ? implode(' ', $name) : $last_name;
+		          ?>
+		          <form class="needs-validation" novalidate="" action="{{ url('checkout') }}" method="post">
+		          	@csrf
+		          	@if(session('warning'))
+		          		<div class="alert alert-warning">
+		          			<span class="text-danger">{{ session('warning') }}</span>
+		          		</div>
+		          	@endif
 		            <div class="row">
 		              <div class="col-md-6 mb-3">
 		                <label for="firstName">First name</label>
-		                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+		                <input name="first_name" type="text" class="{{ $errors->has('first_name')?'is-invalid':'is-valid' }} form-control" id="firstName" value="{{ $first_name }}" required="">
 		                <div class="invalid-feedback">
 		                  Valid first name is required.
 		                </div>
 		              </div>
 		              <div class="col-md-6 mb-3">
 		                <label for="lastName">Last name</label>
-		                <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+		                <input name="last_name" type="text" class="{{ $errors->has('last_name')?'is-invalid':'is-valid' }} form-control" id="lastName" value="{{ $last_name }}" required="">
 		                <div class="invalid-feedback">
 		                  Valid last name is required.
 		                </div>
@@ -93,8 +76,8 @@
 		            </div>
 
 		            <div class="mb-3">
-		              <label for="email">Email <span class="text-muted">(Optional)</span></label>
-		              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+		              <label for="email">Email</label>
+		              <input name="email" type="email" class="{{ $errors->has('email')?'is-invalid':'is-valid' }} form-control" id="email" value="{{ Auth::user()->email }}" required="">
 		              <div class="invalid-feedback">
 		                Please enter a valid email address for shipping updates.
 		              </div>
@@ -102,7 +85,7 @@
 
 		            <div class="mb-3">
 		              <label for="address">Address</label>
-		              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+		              <input name="add1" type="text" class="{{ $errors->has('add1')?'is-invalid':'' }} form-control" id="address" placeholder="" required="">
 		              <div class="invalid-feedback">
 		                Please enter your shipping address.
 		              </div>
@@ -110,25 +93,42 @@
 
 		            <div class="mb-3">
 		              <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-		              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+		              <input name="add2" type="text" class="{{ $errors->has('add2')?'is-invalid':'' }} form-control" id="address2" placeholder="">
 		            </div>
 
 		            <div class="row">
-		              <div class="col-md-5 mb-3">
+		              <div class="col-md-6 mb-3">
+		                <label for="city">City</label>
+		                <input name="city" list="cityList" type="text" class="{{ $errors->has('city')?'is-invalid':'' }} form-control" id="city" placeholder="Choose...">
+		                <div class="invalid-feedback">
+		                  Please enter a valid city.
+		                </div>
+		              </div>
+		              <datalist id="cityList">
+		              	<option>Kathmandu</option>
+		              	<option>Bhaktapur</option>
+		              	<option>Lalitpur</option>
+		              </datalist>
+		              <div class="col-md-6 mb-3">
 		                <label for="country">Country</label>
-		                <select class="custom-select d-block w-100" id="country" required="">
-		                  <option value="">Choose...</option>
-		                  <option>United States</option>
-		                </select>
+		                <input name="country" list="countryList" type="text" class="{{ $errors->has('country')?'is-invalid':'' }} form-control" id="country" placeholder="Choose...">
 		                <div class="invalid-feedback">
 		                  Please select a valid country.
 		                </div>
 		              </div>
-		              <div class="col-md-4 mb-3">
+		              <datalist id="countryList">
+		              	<option>Nepal</option>
+		              </datalist>
+		              <div class="col-md-3 mb-3">
 		                <label for="state">State</label>
-		                <select class="custom-select d-block w-100" id="state" required="">
+		                <select name="state" class="custom-select d-block w-100" id="state">
 		                  <option value="">Choose...</option>
-		                  <option>California</option>
+		                  <option value="1">1</option>
+		                  <option value="2">2</option>
+		                  <option value="3">3</option>
+		                  <option value="4">4</option>
+		                  <option value="5">5</option>
+		                  <option value="6">6</option>
 		                </select>
 		                <div class="invalid-feedback">
 		                  Please provide a valid state.
@@ -136,73 +136,22 @@
 		              </div>
 		              <div class="col-md-3 mb-3">
 		                <label for="zip">Zip</label>
-		                <input type="text" class="form-control" id="zip" placeholder="" required="">
+		                <input name="zip" type="text" class="form-control " id="zip" list="zipList">
 		                <div class="invalid-feedback">
 		                  Zip code required.
 		                </div>
 		              </div>
+		              <datalist id="zipList">
+		              	<option>44600</option>
+		              </datalist>
 		            </div>
 		            <hr class="mb-4">
 		            <div class="custom-control custom-checkbox">
-		              <input type="checkbox" class="custom-control-input" id="same-address">
-		              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-		            </div>
-		            <div class="custom-control custom-checkbox">
-		              <input type="checkbox" class="custom-control-input" id="save-info">
+		              <input type="checkbox" class="{{ $errors->has('') }}custom-control-input" id="save-info">
 		              <label class="custom-control-label" for="save-info">Save this information for next time</label>
 		            </div>
 		            <hr class="mb-4">
-
-		            <h4 class="mb-3">Payment</h4>
-
-		            <div class="d-block my-3">
-		              <div class="custom-control custom-radio">
-		                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
-		                <label class="custom-control-label" for="credit">Credit card</label>
-		              </div>
-		              <div class="custom-control custom-radio">
-		                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
-		                <label class="custom-control-label" for="debit">Debit card</label>
-		              </div>
-		              <div class="custom-control custom-radio">
-		                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
-		                <label class="custom-control-label" for="paypal">PayPal</label>
-		              </div>
-		            </div>
-		            <div class="row">
-		              <div class="col-md-6 mb-3">
-		                <label for="cc-name">Name on card</label>
-		                <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-		                <small class="text-muted">Full name as displayed on card</small>
-		                <div class="invalid-feedback">
-		                  Name on card is required
-		                </div>
-		              </div>
-		              <div class="col-md-6 mb-3">
-		                <label for="cc-number">Credit card number</label>
-		                <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-		                <div class="invalid-feedback">
-		                  Credit card number is required
-		                </div>
-		              </div>
-		            </div>
-		            <div class="row">
-		              <div class="col-md-3 mb-3">
-		                <label for="cc-expiration">Expiration</label>
-		                <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-		                <div class="invalid-feedback">
-		                  Expiration date required
-		                </div>
-		              </div>
-		              <div class="col-md-3 mb-3">
-		                <label for="cc-cvv">CVV</label>
-		                <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-		                <div class="invalid-feedback">
-		                  Security code required
-		                </div>
-		              </div>
-		            </div>
-		            <hr class="mb-4">
+		            <div id="formInv"></div>
 		            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 		          </form>
 		        </div>
@@ -212,4 +161,56 @@
 	</div>
 </section>
 
+@endsection
+
+@section('script')
+<script>
+	function cartItem(item) {
+		return `<li class="list-group-item d-flex justify-content-between lh-condensed">
+	              <div>
+	                <h6 class="my-0">${item.name}</h6>
+	                <small class="text-muted">
+						${item.currency_code}.&nbsp;${item.price} 
+						&nbsp; x &nbsp;
+						${item.qty}
+	                </small>
+	              </div>
+	              <span class="text-muted">${item.currency_code}.&nbsp;${item.total}</span>
+	            </li>`
+	}
+	((cart, quantities) => {
+		$.get('/cart/items', { cart }).then(response => {
+			let container = $('#cartItemList').empty();
+			let totalDiscount = 0;
+			let totalAmount = 0;
+			response.forEach(function(element, index) {
+				let amount = 0;
+				element.qty = quantities[element.id] || 1;
+				if(element.discount) {
+					amount = element.discount.is_amount ? parseFloat(element.discount.amount) : ((element.discount.percent * element.price) / 100);
+						totalDiscount += element.qty * amount;
+				} 
+				totalAmount += element.price * element.qty;
+				element.price -= amount;
+				element.name = element.product.name;
+				element.total = element.price * element.qty;
+				element.sn = index + 1;
+				element.currency_code = element.currency ? element.currency.code : 'Rs';
+				container.append(cartItem(element));
+				$('#formInv').append(
+					`<input type="hidden" name="inventory_id[]" value="${element.id}">
+					<input type="hidden" name="qty[]" value="${element.qty}">`
+				);
+			});
+			container.append(`
+				<li class="list-group-item d-flex justify-content-between">
+				  <span>Total (NRS)</span>
+				  <strong>Rs.&nbsp;${totalAmount - totalDiscount}</strong>
+				</li>
+			`);
+			$('#totalDiscount').text('Rs. '+ totalDiscount);
+			$('#totalAmount').text('Rs. '+ (totalAmount - totalDiscount));
+		});
+	})(localStorage.getItem('cart') || '[]', JSON.parse(localStorage.getItem('quantities') || '{}'))
+</script>
 @endsection

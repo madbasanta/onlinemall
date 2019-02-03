@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\{PasalAddressField, CommonTraits};
 
 class PasalAddress extends Model
 {
-    protected $table = 'pasal_address';
+    use PasalAddressField, CommonTraits;
+
+    protected $table = 'pasal_addresses';
     protected $fillable = [
-		'id',
 		'pasal_id',
 		'address_id',
 		'is_active'

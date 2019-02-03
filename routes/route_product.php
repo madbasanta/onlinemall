@@ -6,6 +6,15 @@
 */
 Route::get('/product', 'ProductShowController@index');
 
+Route::get('/product/{inv}', 'ProductShowController@showProduct');
+
+// index items
+Route::get('/fetch/indexItems', 'ProductShowController@indexItems');
+// recommended items
+Route::get('/fetch/recommendedItems', 'ProductShowController@recommendedItems');
+// recommended items for shop
+Route::get('/fetch/shop/recommendedItems', 'ProductShowController@recommendedItems');
+
 /*
 	BACKEND
 */

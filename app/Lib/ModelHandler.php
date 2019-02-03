@@ -18,10 +18,12 @@ class ModelHandler
 		'inventories' => Models\Inventory::class,
 		'orders' => Models\Order::class,
 		'pasals' => Models\Pasal::class,
+		'pasal_categories' => Models\PasalCategory::class,
+		'pasal_addresses' => Models\PasalAddress::class,
 		'products' => Models\Product::class,
 		'shipping_addresses' => Models\ShippingAddress::class,
 		'sizes' => Models\Size::class,
-		'demo' => Models\Demo::class,
+		//'demo' => Models\Demo::class,
 	];
 
 	public static $pivots = [

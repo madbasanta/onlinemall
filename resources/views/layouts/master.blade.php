@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>@yield('title')</title>
-	<link rel="icon" type="image/png" href="favicon.png">
+	<link rel="icon" type="image/png" href="{{ url('favicon.png') }}">
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/all.css') }}">
 	@yield('style')
@@ -18,21 +18,74 @@
 	@yield('content')
 	@include('layouts.footer')
 	@include('layouts.master_modal')
+	<div class="modal" id="cartItemModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<button type="button" class="close" style="position: absolute;right: 20px;"
+					data-dismiss="modal">&times;</button>
+					1 item added to your cart.
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="loginModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row justify-content-center">
+						<div class="col-sm-8">
+							<form action="/login">
+								<div class="form-group">
+									<input type="text" name="email" class="form-control" placeholder="Email address...">
+								</div>
+								<div class="form-group">
+									<input type="password" name="password" class="form-control">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script src="{{ asset('js/app.js') }}"></script>
 	@yield('script')
 	<script>
-		document.addEventListener('click', function(e) {
-			let element = e.target || e.srcElement;
-			if(element.matches('#iamtoggler') === false) return;
-			let target = element.querySelector('.fas');
-			if(element.classList.contains('collapsed') === false) {
-				target.classList.remove('fa-ellipsis-h');
-				target.classList.add('fa-ellipsis-v');
-			} else {
-				target.classList.remove('fa-ellipsis-v');
-				target.classList.add('fa-ellipsis-h');
-			}
+		$(document).off('click', '.putInCartByNow').on('click', '.putInCartByNow', function(e) {
+			e.preventDefault();
+			safelyPutInCart.call(this);
+			location.href = '/cart';
 		});
+		$(document).off('click', '.putInCart').on('click', '.putInCart', function(e) {
+			e.preventDefault(); e.stopPropagation();
+			safelyPutInCart.call(this);
+			$("#cartItemModal").modal('show');
+		});
+
+		$(window).ready(e => loadcartInfo());
+		function loadcartInfo() {
+			((storage) => {
+				let cartText = $('.cart-text');
+				let cart = storage.getItem('cart') || '[]';
+				cartText.text(JSON.parse(cart).length);
+			})(localStorage);
+		}
+		function safelyPutInCart() {
+			let cart = localStorage.getItem('cart');
+			let item = this.dataset.item;
+			if(!cart) {
+				cart = [ item ];
+			} else {
+				cart = JSON.parse(cart);
+				if(cart.indexOf(item) === -1)
+					cart.push(item);
+				cart = [... new Set(cart)];
+			}
+			localStorage.setItem('cart', JSON.stringify(cart));
+			loadcartInfo();
+			return cart;
+		}
 	</script>
 	<script>
 	    function isScrolledIntoView(elem)
@@ -79,7 +132,7 @@
 				let hasChild = data.children && data.children.length > 0;
 				return `
 					<li class="dropdown-submenu">
-	                    <a class="${hasChild ? 'test dropdown-toggle' : ''}" tabindex="-1" href="#">${data.name}</a>
+	                    <a class="${hasChild ? 'test dropdown-toggle' : ''}" tabindex="-1" href="/search?search=${data.id}&category=${data.name}&t=${(new Date()).getTime()}">${data.name}</a>
 	                    ${hasChild ? child_data(data.children) : '' }
 	                </li>
 				`;

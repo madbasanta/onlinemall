@@ -19,4 +19,9 @@ class Category extends Model
     {
     	return $this->hasMany('App\Models\Category');
     }
+
+    public function chilren()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id')->with('children');
+    }
 }

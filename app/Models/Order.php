@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Inventory;
+use App\Models\{Inventory, Address};
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\{OrderField, CommonTraits};
 
@@ -17,16 +17,21 @@ class Order extends Model
 		'currency_id',
 		'is_active'
 	];
+    protected $appends = ['status'];
 
-
-    public function inventory()
+    public function inventories()
     {
         return $this->belongsToMany(Inventory::class,'order_inventory','order_id','inventory_id');
     }
 
-    public function currency () 
-    {
-    	return $this->belongsTo('App\Models\Currency');
+    public function address() {
+        return $this->belongsToMany(Address::class, 'shipping_addresses', 'order_id', 'address_id');
     }
 
+    public static function getSales() {
+        $orders = static::where('shipped', 1)->get();
+        return $orders->reduce(function($total, $order) {
+            return $total + $order->inventories()->sum('order_inventory.quantity');
+        }, 0);
+    }
 }

@@ -9,14 +9,15 @@
             </div>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <form class="form-inline my-2 my-lg-0 mr-sm-2 ml-lg-3" style="position: relative;">
-                <input class="form-control form-control-sm px-3 outline-none" type="search" placeholder="Search" aria-label="Search on online mall..." style="border-radius: 20px;" id="master-search">
+            <form class="form-inline my-2 my-lg-0 mr-sm-2 ml-lg-3" style="position: relative;"
+            action="{{ url('search') }}">
+                <input name="keyword" class="form-control form-control-sm px-3 outline-none" type="search" placeholder="Search" aria-label="Search on online mall..." style="border-radius: 20px;" id="master-search">
                 <span style="position: absolute;right: 10px;top: 3px;"><i class="fas fa-search text-muted"></i></span>
             </form>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li class="nav-item mr-lg-2">
                     <a class="nav-link px-sm-3" href="{{ url('/cart') }}">
-                        <i class="fas fa-shopping-cart"></i>&nbsp;<span class="float-right">0</span>
+                        <i class="fas fa-shopping-cart"></i>&nbsp;<span class="float-right cart-text">0</span>
                     </a>
                 </li>
             </ul>

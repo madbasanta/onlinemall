@@ -25,6 +25,8 @@ class CreateInventoriesTable extends Migration
             $table->integer('color_id')->unsigned()->nullable();
             $table->integer('brand_id')->unsigned()->nullable();  
             $table->integer('pasal_id')->unsigned()->nullable();
+
+            
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('discount_id')->references('id')->on('discounts');
             $table->foreign('currency_id')->references('id')->on('currencies');

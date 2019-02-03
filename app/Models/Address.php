@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\{AddressField, CommonTraits};
+use App\Models\Order;
 
 class Address extends Model
 {
     use AddressField, CommonTraits;
     
-    protected $table ='addresses';
+    protected $table = 'addresses';
     protected $fillable = [
         'id',
         'add1',
@@ -21,9 +22,14 @@ class Address extends Model
         'is_active'
     ];
 
-    public function PasalAddress() 
-    {
-        return $this->hasMany('App\Models\PasalAddress');
+    public function orders() {
+        return $this->belongsToMany(Order::class, 'shipping_addresses', 'address_id', 'order_id');
     }
 
+    public function full_address() {
+        return sprintf(
+            '%s, <br> %s, <br> %s %s %s, <br> %s',
+            $this->add1, $this->add2, $this->city, $this->state, $this->zip, $this->country
+        );
+    }
 }

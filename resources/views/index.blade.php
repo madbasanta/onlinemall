@@ -60,22 +60,24 @@
 					<div class="row">
 						@foreach($offerProducts as $product)
 						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
+							<a href="{{ url("product/{$product->id}") }}">
 							<div class="card mt-3 offered-card border-0">
 								<div class="card-body">
-									<div class="float-left"><img src="https://picsum.photos/256/256" alt="picsum" class="img-fluid"></div>
+									<?php $image = $product->files->first(); ?>
+									<div class="float-left"><img src="{{ is_null($image) ? asset('notfound.png') : url("inventoryImage/{$image->id}") }}" alt="picsum" class="img-fluid"></div>
 									<div class="float-left pl-2">
-										<?php $offer = rand(5, 20); $price = rand(100, 9999); ?>
 										<h6 class="h6" style="line-height: 1em;height: 2em;overflow: hidden;">
-											{{ $product->name }}
+											{{ $product->product->name }}
 										</h6>
 										<div style="color: rgb(255,87,51);">
-											Rs.&nbsp;{{ $price * ((100 - $offer)/100) }} &nbsp; 
-											<del class="text-muted">Rs. {{ $price }}</del>
+											{{ $product->currency->code??'Rs' }}.&nbsp;{{ $product->getCurrenctPrice() }} &nbsp; 
+											<del class="text-muted">{{ $product->currency->code??'Rs' }}. {{ $product->price }}</del>
 										</div>
 									</div>
 								</div>
-								<div class="offer">{{ $offer }}%</div>
+								<div class="offer">{{ ($product->price - $product->getCurrenctPrice()) * (100 / $product->price) }}%</div>
 							</div>
+							</a>
 						</div>
 						@endforeach
 					</div>
@@ -94,22 +96,25 @@
 					<hr class="m-0 bg-brown">
 					<div class="row">
 						@foreach($topShops as $shop)
+						<?php $image = $shop->files->firstWhere('type', 'profile'); ?>
 						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
+							<a href="{{ url("pasal/{$shop->id}") }}">
 							<div class="card mt-3 border-0">
 								<div class="card-body">
-									<div class="float-left"><img src="https://picsum.photos/300/300" alt="picsum" class="img-fluid"></div>
+									<div class="float-left"><img src="{{ $image?url("shopImage/{$image->id}"):url('notfound.png') }}" alt="{{ $shop->name }}" class="img-fluid"></div>
 									<div class="float-left pl-2">
 										<h6 class="h6" style="line-height: 1em;height: 2em;overflow: hidden;">
 											{{ $shop->name }}
 										</h6>
 										<div>
-											@foreach(range(0, rand(0, 4)) as $i)
+											@foreach(range(0, 4) as $i)
 											<i class="fa fa-star text-orange"></i>
 											@endforeach
 										</div>
 									</div>
 								</div>
 							</div>
+							</a>
 						</div>
 						@endforeach
 					</div>
@@ -120,6 +125,18 @@
 </section>
 
 @include('include.pasalsGrid')
-@include('include.indexItems')
-@include('include.recommendedItem')
+<section id="indexItemsCon"></section>
+<section id="recommendedItemsCon"></section>
+{{-- @include('include.indexItems') --}}
+{{-- @include('include.recommendedItem') --}}
+@endsection
+@section('script')
+<script>
+	$(window).ready(e => {
+		setTimeout(function() {
+			$.get('/fetch/indexItems').then(response => $('#indexItemsCon').html(response));
+			$.get('/fetch/recommendedItems').then(response => $('#recommendedItemsCon').html(response));
+		}, 300);
+	});
+</script>
 @endsection

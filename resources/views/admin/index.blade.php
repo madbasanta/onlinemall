@@ -1,5 +1,5 @@
 @extends('admin.blueprint.blueprint')
 
 @section('content')
-    dashboard contents
+    @include('admin.dashboard')
 @endsection

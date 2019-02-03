@@ -33,6 +33,8 @@
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
+        {{-- ajax page loader --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/pace/pace.min.css') }}">
 
         {{-- select 2 --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
@@ -43,6 +45,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <!-- Google Font -->
+        <style>img:hover{cursor: pointer;}</style>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
@@ -289,11 +292,11 @@
                                     <li class="user-header">
                                         <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
                                         <p>
-                                            {{ Auth::user()->name }} - Web Developer
-                                            <small>Member since Nov. 2012</small>
+                                            {{ Auth::user()->name }}
+                                            <small>Member since {{ date('M. Y', strtotime(Auth::user()->created_at)) }}</small>
                                         </p>
                                     </li>
-                                    <!-- Menu Body -->
+                                    {{-- <!-- Menu Body -->
                                     <li class="user-body">
                                         <div class="row">
                                             <div class="col-xs-4 text-center">
@@ -307,13 +310,13 @@
                                             </div>
                                         </div>
                                         <!-- /.row -->
-                                    </li>
+                                    </li> --}}
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
+                                        <!-- <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>
-                                        <div class="pull-right">
+                                        </div> -->
+                                        <div class=" text-center">
                                             <a href="javascript:void(0)" class="btn btn-default btn-flat" 
                                             onclick="document.getElementById('logout_form').submit()">Sign out</a>
                                             <form action="/logout" method="post" id="logout_form">@csrf</form>
@@ -322,9 +325,9 @@
                                 </ul>
                             </li>
                             <!-- Control Sidebar Toggle Button -->
-                            <li>
-                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                            </li>
+                           <!--  <li>
+                               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                           </li> -->
                         </ul>
                     </div>
                 </nav>
@@ -358,7 +361,7 @@
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">MAIN NAVIGATION</li>
                         <li class="active">
-                            <a href="#">
+                            <a href="admin/dashboard" id="dashboard" data-id="#dashboard">
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
@@ -371,6 +374,26 @@
                             </a>
                             <ul class="treeview-menu" id="models-tree">
                                 @foreach($models as $mod)
+                                @continue(in_array($mod->getTable(), ['orders', 'inventories', 'shipping_addresses', 'products', 'pasals', 'pasal_addresses', 'pasal_categories']))
+                                    <li>
+                                        <a href="{{ $mod->getTable()?admin_url('mod/'.$mod->getTable()):'javascript:void(0)' }}" data-id="#mod-{{ $mod->getTable() }}">
+                                            <i class="fa fa-circle-o"></i>
+                                            {{ title_case($mod->getTable()) }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th-large"></i> <span>Order Management</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu" id="orders-tree">
+                                @foreach($models as $mod)
+                                @continue(!in_array($mod->getTable(), ['orders', 'inventories', 'shipping_addresses', 'products', 'pasals', 'pasal_addresses']))
                                     <li>
                                         <a href="{{ $mod->getTable()?admin_url('mod/'.$mod->getTable()):'javascript:void(0)' }}" data-id="#mod-{{ $mod->getTable() }}">
                                             <i class="fa fa-circle-o"></i>
@@ -601,6 +624,9 @@
         <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
         <!-- iCheck 1.0.1 -->
         <script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
+        <!-- Ajax Pace loader -->
+        <script src="{{ asset('bower_components/PACE/pace.min.js') }}"></script>
+
         <!-- FastClick -->
         <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
         <!-- AdminLTE App -->

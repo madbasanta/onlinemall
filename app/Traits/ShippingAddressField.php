@@ -4,18 +4,30 @@ namespace App\Traits;
 trait ShippingAddressField {
 
     public $heads = [
-    	'product_id' => 'Product',
-    	'address_id' => 'Address',
+		'addresses_add1' => 'Address1',
+		'addresses_city'=> 'City',
+		'currencies_code' => 'Currency',
     	'shipping_charge' => 'Shipping Charge',
-    	'currency_id' => 'Currency',
-    	'is_active' => 'Status',
-    ];
+		'is_active' => 'Status',
+	];
 
     public $fields = [
-    	'product_id' => ['type' => 'select', 'label' => 'Product', 'validation' => 'required', 'options' => []],
-    	'address_id' => ['type' => 'select', 'label' => 'Address', 'validation' => 'required', 'options' => []],
-    	'shipping_charge' => ['type' => 'number', 'label' => 'Shipping Charge', 'validation' => 'required'],
-    	'currency_id' => ['type' => 'select', 'label' => 'Currency', 'validation' => 'required', 'options' => []],
+		'order_id' => ['type' => 'select', 'label' => 'Order of', 'validation' => 'required', 'options' => [],
+			'select2' => ['table' => 'orders', 'id' => 'id', 'text' => 'CONCAT(first_name,\' \',last_name)']
+		],
+		'address_id' => ['type' => 'select', 'label' => 'Address', 'validation' => 'required', 'options' => [],
+			'select2' => ['table' => 'addresses', 'id' => 'id', 'text' => 'CONCAT(city,\', \',add1)']
+		],
+    	'shipping_charge' => ['type' => 'number', 'label' => 'Shipping Charge', 'validation' => 'nullable'],
+		'currency_id' => ['type' => 'select', 'label' => 'Currency', 'validation' => 'nullable', 'options' => [],
+			'select2' => ['table' => 'currencies', 'id' => 'id', 'text' => 'code']
+		],
     	'is_active' => ['type' => 'checkbox', 'label' => 'Status', 'options' => [1 => 'Active']]
-    ];
+	];
+	
+	protected $relationships = [
+		'addresses' => ['primary_key' => 'id', 'foreign_key' => 'address_id'],
+		'orders' => ['primary_key' => 'id', 'foreign_key' => 'order_id'],
+		'currencies' => ['primary_key' => 'id', 'foreign_key' => 'currency_id'],
+	];
 }

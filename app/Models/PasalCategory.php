@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\{PasalCategoryField, CommonTraits};
 
 class PasalCategory extends Model
 {
-    protected $table ='pasal_category';
+    use PasalCategoryField, CommonTraits;
+
+    protected $table = 'pasal_categories';
     protected $fillable = [
-		'id',
 		'pasal_id',
 		'category_id'
     ];

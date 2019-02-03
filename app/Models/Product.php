@@ -24,7 +24,7 @@ class Product extends Model
 	}
 
 
-	public function inventory() 
+	public function inventories() 
 	{
 		return $this->hasMany('App\Models\Inventory');
 	}

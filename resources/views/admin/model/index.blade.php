@@ -68,11 +68,11 @@
 			editAction.call(this, '{{ str_singular($model->getTable()) }}', '{{ $model->getTable() }}');
 		});
 		$(document).off('click', '.goto-details').on('click', '.goto-details', function(e) {
-			let samePageTables = ['orders','inventories','pasals','discounts'];
+			let samePageTables = ['orders','inventories','pasals'];
 			let currentTable = '{{ $model->getTable() }}';
 			if(samePageTables.indexOf(currentTable) === -1)
-				showDetails(this, '{{ $model->getTable() }}');
-			else showStaticDetails(this, '{{ $model->getTable() }}');
+				showDetails(this, currentTable);
+			else showStaticDetails(this, currentTable);
 		})
 	});
 </script>

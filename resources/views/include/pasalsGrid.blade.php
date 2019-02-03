@@ -7,26 +7,30 @@
 			</div>
 			<div id="pasalGridCarousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
-					@foreach(range(0, 0) as $j)
-					<div class="carousel-item @if($j === 0) active @endif">
+					@foreach(range(1, ceil($connectedShops->count() / 8)) as $j)
+					<div class="carousel-item @if($loop->iteration === 1) active @endif">
 						<div class="container xs">	
 							<div class="row">
-								<div class="row">
-								@foreach(range(0, 7) as $i)
+								@foreach($connectedShops->forPage($j, 8) as $i => $shop)
+								<?php
+									$cover = $shop->files->firstWhere('type', 'cover');
+									$profile = $shop->files->firstWhere('type', 'profile');
+								?>
 								<div class="col-lg-3 col-md-3 col-sm-6 col-6 px-2">
+									<a href="{{ url("pasal/{$shop->id}") }}" class="card-link" style="color: unset;">
 									<div class="card border-0 mb-3 b-e-h">
 										<div class="card-body text-center p-0">
 											<div class="b-e-h-c">
-												<img class="img-fluid" src="https://picsum.photos/320/{{ 200 + $i }}" alt="falano pasal image">
+												<img class="img-fluid" src="{{ $profile?url("shopImage/{$profile->id}"):'/notfound.png' }}" alt="{{ $shop->name }}" style="max-height: 170px;">
 											</div>
 											<div>
-												<p class="text-left m-2" style="line-height: 1.3em;height: 2.6em;overflow: hidden;">Pasal name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, dicta.</p>
+												<p class="text-left m-2" style="line-height: 1.3em;height: 2.6em;overflow: hidden;">{{ $shop->name }}</p>
 											</div>
 										</div>
 									</div>
+									</a>
 								</div>
 								@endforeach
-								</div>
 							</div>
 						</div>
 					</div>	

@@ -11,11 +11,11 @@ $pasals = \App\Models\Pasal::find(json_decode($component->data, true));
 	<div class="carousel-inner">
 		@foreach($pasals as $pasal)
 		<div class="carousel-item @if($loop->index === 0) active @endif">
-			<img class="d-block w-100" src="https://picsum.photos/320/220" alt="First slide">
+			<img class="d-block w-100" src="@if($img = $pasal->files->firstWhere('type', 'profile')){{ url("shopImage/{$img->id}") }} @else {{ url('notfound.png') }} @endif" alt="{{ $pasal->name }}" style="max-height: 420px;">
 			<div class="carousel-caption d-none d-md-block">
 			    <h5>{{ $pasal->name }}</h5>
 			    <p>
-			    	@foreach(range(0, rand(0, 4)) as $i)
+			    	@foreach(range(0, 4) as $i)
 			    	<i class="fa fa-star text-orange"></i>
 			    	@endforeach
 			    </p>

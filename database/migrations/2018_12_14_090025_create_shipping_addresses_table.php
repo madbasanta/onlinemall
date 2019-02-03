@@ -15,17 +15,15 @@ class CreateShippingAddressesTable extends Migration
     {
         Schema::create('shipping_addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id')->unsigned()->nullable();
+            $table->integer('order_id')->unsigned()->nullable();
             $table->integer('address_id')->unsigned()->nullable();
             $table->integer('shipping_charge')->nullable();
             $table->integer('currency_id')->unsigned()->nullable();
             $table->boolean('is_active')->nullable();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('address_id')->references('id')->on('addresses');
             $table->foreign('currency_id')->references('id')->on('currencies');
             $table->timestamps();
-
-
         });
     }
 

@@ -13,6 +13,13 @@ trait InventoryField {
         'brands_name' => 'Brand',
     ];
     public $fields = [
+		'pasal_id' => [
+			'type' => 'select',
+    		'label' => 'Pasal',
+    		'validation' => 'nullable',
+    		'options' => [],
+            'select2' => ['table' => 'pasals', 'id' => 'id', 'text' => 'name']
+		],
     	'brand_id' => [
             'type' => 'select',
     		'label' => 'Brand',
@@ -25,7 +32,7 @@ trait InventoryField {
     		'label' => 'Product',
     		'validation' => 'required',
     		'options' => [],
-            'select2' => ['table' => 'products', 'id' => 'id', 'text' => 'name']
+            'select2' => ['table' => 'products', 'id' => 'id', 'text' => 'products.name']
     	],
     	'quantity' => [
     		'type' => 'number',
@@ -68,6 +75,7 @@ trait InventoryField {
         'colors' => ['primary_key' => 'id', 'foreign_key' => 'color_id'],
         'brands' => ['primary_key' => 'id', 'foreign_key' => 'brand_id'],
         'sizes' => ['primary_key' => 'id', 'foreign_key' => 'size_id'],
+        'pasals' => ['primary_key' => 'id', 'foreign_key' => 'pasal_id'],
     ];
 
 }

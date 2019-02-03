@@ -27,7 +27,7 @@
 						<div class="form-group">
 							@foreach($options['options'] as $id => $label)
 								<input id="df_{{ $table_name }}{{ $id }}" type="checkbox" name="{{ $input }}" value="{{ $id }}" class="minimal" 
-								@if($model->$input === $id) checked="checked"  @endif>
+								@if($model->$input === $id || stripos($model->$input, $label) !== false) checked="checked"  @endif>
 								<label for="df_{{ $table_name }}{{ $id }}">&nbsp;{{ $label }}</label>
 							@endforeach						
 						</div>
@@ -38,10 +38,11 @@
 							<label for="df_{{ $table_name }}{{ $input }}">{{ $label = isset($options['label']) ? $options['label'] : ucwords($input) }}</label>
 						</div>
 					</div>
+					@php $putButton = isset($options['select2']); @endphp
 					<div class="col-md-8">
 						<div class="form-group">
-							<select name="{{ $input }}" id="df_{{ $table_name }}{{ $input }}" class="form-control select2ini" 
-								@if(isset($options['select2']))
+							<select name="{{ $input }}" id="df_{{ $table_name }}{{ $input }}" class="form-control @if($putButton) select2ini @endif" 
+								@if($putButton)
 									@foreach($options['select2'] as $d => $v)
 										data-{{ $d }}="{{ $v }}"
 									@endforeach
@@ -52,6 +53,7 @@
 							</select>
 						</div>
 					</div>
+					@if($putButton)
 					<div class="col-md-2">
 						<div class="form-group">
 							<button class="btn btn-default btn-flat add-new-modal" type="button" 
@@ -60,6 +62,7 @@
 							</button>
 						</div>
 					</div>
+					@endif
 				@else
 					<div class="col-md-2">
 						<div class="form-group text-right">
@@ -102,7 +105,7 @@
 	$('input[type="checkbox"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue'
     });
-    $('select').each(function() {
+    $('select.select2ini').each(function() {
     	let that = $(this);
     	let url = '/admin/getOptions/'+ that.data('table');
     	let params = {
@@ -113,10 +116,11 @@
 	    	tags : true,
 	    	ajax: {
 	    		url, data: query => ({query: query.term, id: params.id, text: params.text}),
-	    		processResults: data => ({results: data})
+	    		processResults: results => ({ results })
 	    	}
 	    });
     });
+    $('select').not('.select2ini').select2();
     $('.add-new-modal').off('click').on('click', function(e) {
     	let id = this.dataset.target;
     	let that = $(id);

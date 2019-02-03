@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', $product->name)
 @section('description', 'Buy ' . $product->name)
-@section('keywords', implode(',', explode(' ', $product->name)))
+@section('keywords', str_replace(' ', ',', $product->name))
 @section('content')
 <section>
 	<div class="container">
@@ -10,32 +10,50 @@
 				<div class="row bg-white">
 					<div class="col-sm-4 col-12">
 						<div class="my-3">
-							<img class="img-fluid magnify-image" src="{{ asset('image/' . $product->image) }}" alt="{{ $product->name }}">
+							<?php $image = $inv->files->first(); ?>
+							<img class="img-fluid magnify-image" src="{{ is_null($image) ? asset('notfound.png') : url("inventoryImage/{$image->id}") }}" alt="{{ $product->name }}" style="max-height: 280px;">
 						</div>
 					</div>
 					<div class="col-sm-4 col-12">
 						<div class="my-3">
 							<h1 class="h5">{{ $product->name }}</h1>
 							<hr class="bg-light">
-							<h1 class="h4 text-danger">Rs. {{ $product->price }}</h1>
+							<h1 class="h4 text-danger">
+								{{ $inv->currency->code ?? 'Rs' }}. {{ $inv->getCurrenctPrice() }}
+								@if($inv->discount)
+								<del class="text-muted small">&nbsp;{{ $inv->currency->code ?? 'Rs' }}. {{ $inv->price }}</del>
+								@endif
+							</h1>
 							<div class="action-buttons clearfix">
-								<button class="btn btn-info text-white px-5 mt-3 float-lg-left">Buy Now</button>
-								<button class="btn bg-orange text-white px-xl-5 px-4 mt-3 float-lg-right">Add to Cart</button>
+								<a data-item="{{ $inv->id }}" href="javascript:void(0)" 
+								class="btn btn-info text-white px-5 mt-3 float-lg-left putInCartByNow">Buy Now</a>
+								<a href="javascript:void(0)" data-item="{{ $inv->id }}" 
+								class="btn bg-orange text-white putInCart px-xl-5 px-4 mt-3 float-lg-right">Add to Cart</a>
 							</div>
+							@if($inv->quantity > 0)
 							<div class="product-stock text-success mt-2">
 								(In Stock)
 							</div>
-							<h1 class="h5 bg-success text-white p-2 text-center mt-2">
-								Call & Order
-								<i class="fa fa-phone fa-xs"></i>
-								9806565456
-							</h1>
+							@else
+							<div class="product-stock text-danger mt-2">
+								(Out of Stock)
+							</div>
+							@endif
+								<h5>&nbsp;</h5>
+							<div>
+								<h1 class="h5 bg-success text-white p-2 text-center" 
+								style="position: absolute;bottom: 10px;left: 1rem;right: 1rem;">
+									<i class="fa fa-phone fa-xs"></i>
+									Direct Call
+									9806565456
+								</h1>
+							</div>
 						</div>
 					</div>
 					<div class="col-sm-4 bg-light">
 						<div class="px-3 pt-2">
 							<h1 class="h5 clearfix text-muted">Delivery Options <i class="fa fa-info-circle float-right fa-xs"></i></h1>
-							<p><i class="fa text-muted fa-map-marker-alt fa-lg" style="width: 30px;"></i> Bagmati, Mechi, Koshi</p>
+							<p><i class="fa text-muted fa-map-marker-alt fa-lg" style="width: 30px;"></i> Bagmati, Kathmandu, Ringroad</p>
 							<p><i class="fa text-muted fa-truck fa-lg" style="width: 30px;"></i> Home Delivery</p>
 							<p><i class="fa text-muted fa-money-bill-alt fa-lg" style="width: 30px;"></i> Cash On Delivery</p>
 						</div>
@@ -69,16 +87,24 @@
 						<hr class="m-0">
 					</div>
 					<div class="product-desc-con p-2 clearfix">
-						{!! $product->description !!}
+						{!! $product->desc !!}
 					</div>
 				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="p-2">
-						<h1 class="h5 mt-3">Falano Shop Lorem ipsum dolor sit amet.</h1>
+						@if($shop = $inv->pasal)
+						<h1 class="h5 mt-3">{{ $shop->name }}</h1>
 						<hr class="m-0">
 						<div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod exercitationem ab, ipsam placeat nam neque beatae unde aperiam eos recusandae aspernatur vero quasi labore tempora.</p>
+							@if($address = $shop->address->first())
+								{!! $address->full_address() !!}
+							@else
+							No Address Information.
+							@endif
 						</div>
+						@else
+						No Information 	
+						@endif
 					</div>
 				</div>
 			</div>
@@ -88,38 +114,59 @@
 <section id="related-products">
 	<div class="container">
 		<hr class="bg-dark">
-		<h3 class="h4">Related products from <a href="javascript:void(0)">Falano Shop</a> <i class="fa fa-heart text-danger mb-3"></i></h3>
-		<div class="row">
-			@foreach(range(0, 5) as $i)
-			<div class="col-lg-2 d-lg-block col-md-3 d-md-block col-sm-4 col-6 {{ $i > 3 ? 'd-none' : '' }} px-2">
-				<div class="card border-0 mb-3 b-e-h">
-					<div class="card-body text-center p-0">
-						<div class="b-e-h-c">
-							<img class="img-fluid" src="https://picsum.photos/350/{{ 345 + $i }}" alt="item pic">
-						</div>
-						<div class="text-left px-1">
-							<p style="line-height: 1rem;" class="clamp mt-3" data-lines=2>Product name Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, quis.</p>
-							<p style="line-height: 1rem;" class="text-danger font-weight-bold">Rs.&nbsp;{{ rand(100, 999) }}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			@endforeach
-		</div>
+		@if($shop = $inv->pasal)
+		<h3 class="h4">Other products from <a href="{{ url("pasal/{$shop->id}") }}">{{ $shop->name }}</a> <i class="fa fa-heart text-danger mb-3"></i></h3>
+		@endif
+		<section id="recommendedItemsCon"></section>
 	</div>
 </section>
+<div class="modal" id="popOutImagePreview">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center" style="padding: 0;">
+            <button type="button" class="close text-white" style="position: absolute;right: -20px;" data-dismiss="modal">&times;</button>
+                <div id="myImageCarousel" class="carousel slide" data-ride="carousel">
+                  <!-- Indicators -->
+                  <ol class="carousel-indicators">
+                    @foreach($inv->files as $key => $image)
+                    <li data-target="#myImageCarousel" data-slide-to="{{ $key }}" @if($loop->index == 0) class="active" @endif></li>
+                    @endforeach
+                  </ol>
+
+                  <!-- Wrapper for slides -->
+                  <div class="carousel-inner">
+                    @forelse($inv->files as $key => $image)
+                    <div class="item {{ $loop->index == 0 ? 'active' : '' }}">
+                      <img src="{{ url("inventoryImage/{$image->id}") }}" alt="{{ $inv->product->name }}" style="margin:0 auto;">
+                    </div>
+                    @empty
+                    <div class="item active">
+                      <img src="{{ asset("notfound.png") }}" alt="{{ $inv->product->name }}" style="margin:0 auto;">
+                    </div>
+                    @endforelse
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
 <script>
 	$(function() {
+		$("#myImageCarousel").carousel({interval:false});
 		$('.magnify-image').on('click', function(e) {
-			let that = this;
-			$('#master_modal').modalSetting({
-				classes: {'modal-dialog' : 'modal-lg', 'modal-footer' : 'p-0'},
-				html: {'modal-title h3' : that.alt, 'modal-body' : `<img class="img-fluid" src="${that.src}" />`},
-				// buttons : [{text: 'Submit', class: 'btn-primary'}, {text: 'Cancel', class: 'pull-left'}]
-			}).modal('show');
+			$('#popOutImagePreview').modal('show');
+		});
+		$(window).ready(e => {
+			setTimeout(function() {
+				@if($shop)
+				$.get('/fetch/shop/recommendedItems?shop={{ $shop->id }}').then(response => $('#recommendedItemsCon').html(response));
+				@else
+				$.get('/fetch/recommendedItems').then(response => $('#recommendedItemsCon').html(response));
+				@endif
+			}, 300);
 		});
 	});
 </script>

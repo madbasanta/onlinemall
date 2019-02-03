@@ -10,8 +10,7 @@ class ShippingAddress extends Model
     use ShippingAddressField, CommonTraits;
     
     protected $table='shipping_addresses';
-    protected $fillable=[
-		'id',
+    protected $fillable= [
 		'product_id',
 		'address_id',
 		'shipping_charge',

@@ -21,9 +21,9 @@ class UsersTableSeeder extends Seeder
         \DB::table('users')->delete();
         \DB::table('users')->insert($users);
 
-        $user_data = factory(\App\User::class, 25)->make();
-        foreach ($user_data as $key => $user) {
-            $user->save();
-        }
+        // $user_data = factory(\App\User::class, 25)->make();
+        // foreach ($user_data as $key => $user) {
+        //     $user->save();
+        // }
     }
 }
