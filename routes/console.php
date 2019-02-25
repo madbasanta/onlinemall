@@ -18,45 +18,49 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('iseed {table}', function ($table) {
-	$data = DB::table($table)->get();
-	$data = json_decode(json_encode($data), true);
-	$arr = '[';
-	foreach($data as $i => $datval):
-		$arr .= "
-			$i => [";
-		foreach($datval as $key => $val):
-			$val = str_replace('\\', '', $val);
-			$arr .= "
-				'$key' => '$val', ";
-		endforeach;
-		$arr .= "
-			], ";
-	endforeach;
-	$arr .= '
-		]';
-	$classname = str_replace('_', '', title_case($table)) . 'TableSeeder';
-	$filename = database_path('seeds/'. $classname . '.php');
-	$content = '<?php
+	try {
+			$data = DB::table($table)->get();
+			$data = json_decode(json_encode($data), true);
+			$arr = '[';
+			foreach($data as $i => $datval):
+				$arr .= "
+					$i => [";
+				foreach($datval as $key => $val):
+					$val = str_replace('\\', '', $val);
+					$arr .= "
+						'$key' => '$val', ";
+				endforeach;
+				$arr .= "
+					], ";
+			endforeach;
+			$arr .= '
+				]';
+			$classname = str_replace('_', '', title_case($table)) . 'TableSeeder';
+			$filename = database_path('seeds/'. $classname . '.php');
+			$content = '<?php
 
-use Illuminate\Database\Seeder;
+		use Illuminate\Database\Seeder;
 
-class %s extends Seeder
-{
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $users = %s;
-        \DB::table("%s")->delete();
-        \DB::table("%s")->insert($users);
-    }
-}
-';
-	file_put_contents($filename, sprintf($content, $classname, $arr, $table, $table));
-    $this->comment($classname . ' created successfully.');
+		class %s extends Seeder
+		{
+		    /**
+		     * Run the database seeds.
+		     *
+		     * @return void
+		     */
+		    public function run()
+		    {
+		        $data = %s;
+		        \DB::table("%s")->delete();
+		        \DB::table("%s")->insert($data);
+		    }
+		}
+		';
+		file_put_contents($filename, sprintf($content, $classname, $arr, $table, $table));
+    	$this->comment($classname . ' created successfully.');
+	} catch (\Exception $e) {
+		$this->error('Error : ' . $e->getMessage());
+	}
 })->describe('Create seeder of given table');
 
 

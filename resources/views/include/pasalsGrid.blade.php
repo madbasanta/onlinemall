@@ -17,7 +17,7 @@
 									$profile = $shop->files->firstWhere('type', 'profile');
 								?>
 								<div class="col-lg-3 col-md-3 col-sm-6 col-6 px-2">
-									<a href="{{ url("pasal/{$shop->id}") }}" class="card-link" style="color: unset;">
+									<a href="{{ url("pasal/{$shop->id}/" . str_slug($shop->name)) }}" class="card-link" style="color: unset;">
 									<div class="card border-0 mb-3 b-e-h">
 										<div class="card-body text-center p-0">
 											<div class="b-e-h-c">

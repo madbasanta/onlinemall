@@ -34,7 +34,7 @@ class CrudController extends Controller
                 $alias = 'alias_'. $table;
                 $query->leftjoin($table .' as '. $alias, "{$alias}.{$data['primary_key']}", "{$t}{$data['foreign_key']}");
             endforeach;
-        })->selectRaw($selectables)->get();
+        })->selectRaw($selectables)->orderByDesc("{$mod}.created_at")->get();
     	return ['data' => $data];
     }
 

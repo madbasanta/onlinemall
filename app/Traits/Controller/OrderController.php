@@ -13,6 +13,7 @@ trait OrderController {
         $order->last_name = array_pop($full_name) ?: $request->last_name;
         $order->first_name = implode(' ', $full_name) ?: $request->first_name;
         $order->email = $request->email;
+        $order->contact = $request->phone;
         $order->save();
         return $order;
     }

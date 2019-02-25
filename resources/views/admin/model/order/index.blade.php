@@ -6,6 +6,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header clearfix">
                     <i class="fa fa-user"></i> {{ $order->first_name . ' ' . $order->last_name }}
+                    <span class="pull-right btn btn-xs btn-white" id="reloadInv">&nbsp; <i class="fa fa-undo fa-flip-horizontal"></i></span>
                     <span class="pull-right text-success">{{ date('d-M-Y', strtotime($order->created_at)) }}</span>
                 
                     <span class="btn btn-xs pull-right @if($order->shipped) btn-danger @else btn-primary @endif" id="markShipped" data-token="{{ csrf_token() }}" data-id="{{ $order->id }}" 
@@ -22,6 +23,25 @@
         
         <div class="row invoice-info">
             <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <table style="width: 100%">
+                    <tr>
+                        <th colspan="3">
+                            <div style="border-bottom: 1px solid gray;margin-bottom: 10px;">Contact info</div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td width="70px">Phone</td>
+                        <td width="20px">:</td>
+                        <td>{{ $order->contact }}</td>
+                    </tr>
+                    <tr>
+                        <td width="70px">Email</td>
+                        <td width="20px">:</td>
+                        <td>{{ $order->email }}</td>
+                    </tr>
+                </table>
+            </div>
             <div class="col-sm-8 invoice-col">
                 <table style="width: 100%;">
                     <tr>
@@ -127,6 +147,15 @@
 
 @include('admin.blueprint.master-modal')
 <div class="modal" id="discountModal"></div>
+<div class="modal" id="previewImg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <img src="" id="imgSrc" class="img-responsive" style="margin: 0 auto;">
+            </div>
+        </div>
+    </div>
+</div>
 
 @if($model)
 
@@ -146,8 +175,8 @@
                 targets: -1,
                 data: null,
                 defaultContent: `<button class="btn btn-xs goto-inv-details" type="button" title="View"><i class="fa fa-eye"></i></button>
-                    <!--button class="btn btn-xs btn-primary edit-order" type="button" title="Edit"><i class="fa fa-pencil"></i></button-->
-                                <button class="btn btn-xs btn-danger remove-order-inv" type="button" title="Remove item"><i class="fa fa-times"></i></button>`
+                    <button class="btn btn-xs btn-primary previewImg" type="button" title="Preview"><i class="fa fa-photo"></i></button>
+                    <button class="btn btn-xs btn-danger remove-order-inv" type="button" title="Remove item"><i class="fa fa-times"></i></button>`
             }],
             createdRow: (row, data) => {row.dataset.id = data.id; row.dataset.mod = data.id;}
         });
@@ -172,6 +201,17 @@
                 showDetails(this, '{{ $model->getTable() }}');
             else showStaticDetails(this, '{{ $model->getTable() }}');
         });
+
+        $(document).off('click', '.previewImg').on('click', '.previewImg', function(e) {
+            e.preventDefault();
+            let id = $(this).closest('tr').data('id');
+            $.get('imgSrc/inv/'+ id).then(src => {
+                if(!src) return alert('No image available');
+                let targetModal = $('#previewImg');
+                targetModal.find('#imgSrc').attr('src', src);
+                targetModal.modal('show');
+            }, err => false);
+        });
     });
 </script>
 @endif
@@ -181,5 +221,6 @@
             $('#cModal').loader().modal('show');
             $.get('/admin/inventory/orders/edit/{{ $order->id }}').then(form => $('#cModal').html(form).modal('show'));
         });
+        $('#reloadInv').off('click').on('click', e => showStaticDetails({{ $order->id }}, 'orders'));
     });
 </script>

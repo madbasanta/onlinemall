@@ -27,9 +27,6 @@ class Address extends Model
     }
 
     public function full_address() {
-        return sprintf(
-            '%s, <br> %s, <br> %s %s %s, <br> %s',
-            $this->add1, $this->add2, $this->city, $this->state, $this->zip, $this->country
-        );
+        return $this->add1.($this->add2?'<br>'.$this->add2:'').('<br>'.$this->city.($this->state?', '.$this->state:'').($this->zip?', '.$this->zip:'')).($this->country?'<br>'.$this->country:'');
     }
 }

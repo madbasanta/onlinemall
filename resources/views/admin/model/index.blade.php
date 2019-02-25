@@ -47,6 +47,7 @@
 		let table = dynamicTable.DataTable({
 			ajax: "{{ admin_url('table') }}/getData?mod={{ $model->getTable() }}",
 			columns,
+			order:[],
 			columnDefs: [{
 				targets: -1,
 				data: null,

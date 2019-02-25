@@ -1,6 +1,6 @@
 <?php
 
-Route::get('pasal/{shop}', 'FrontendShopController@index');
+Route::get('pasal/{shop}/{name?}', 'FrontendShopController@index');
 
 Route::get('frontend/categories', 'FrontendController@getCategories');
 

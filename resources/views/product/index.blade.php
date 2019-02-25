@@ -45,7 +45,7 @@
 								style="position: absolute;bottom: 10px;left: 1rem;right: 1rem;">
 									<i class="fa fa-phone fa-xs"></i>
 									Direct Call
-									9806565456
+									{{ ss('contact', '9817916444') }}
 								</h1>
 							</div>
 						</div>
@@ -53,15 +53,23 @@
 					<div class="col-sm-4 bg-light">
 						<div class="px-3 pt-2">
 							<h1 class="h5 clearfix text-muted">Delivery Options <i class="fa fa-info-circle float-right fa-xs"></i></h1>
-							<p><i class="fa text-muted fa-map-marker-alt fa-lg" style="width: 30px;"></i> Bagmati, Kathmandu, Ringroad</p>
-							<p><i class="fa text-muted fa-truck fa-lg" style="width: 30px;"></i> Home Delivery</p>
-							<p><i class="fa text-muted fa-money-bill-alt fa-lg" style="width: 30px;"></i> Cash On Delivery</p>
+							<p><i class="fa text-muted fa-map-marker-alt fa-lg" style="width: 30px;"></i> 
+								{{ ss('delivery-location') }}
+							</p>
+							@foreach(sss('delivery-options') as $option)
+							<?php list($text, $icon) = explode(',', $option->value); ?>
+							<p><i class="fa text-muted fa-{{ trim($icon) }} fa-lg" style="width: 30px;"></i> {{ $text }}</p>
+							@endforeach
+							{{-- <p><i class="fa text-muted fa-money-bill-alt fa-lg" style="width: 30px;"></i> Cash On Delivery</p> --}}
 						</div>
 						<hr>
 						<div class="px-3 pb-3">
 							<h1 class="h5 clearfix text-muted">Return & Warranty <i class="fa fa-info-circle float-right fa-xs"></i></h1>
-							<p><i class="fa text-muted fa-undo fa-lg seven-day-return" style="width: 30px;"></i> 7 Days Returns</p>
-							<p><i class="fa text-muted fa-shield-alt fa-lg" style="width: 30px;"></i> 5 Year Warranty</p>
+							@foreach(sss('warrenty-options') as $option)
+							<?php list($text, $icon) = explode(',', $option->value); ?>
+							<p><i class="fa text-muted fa-{{ trim($icon) }} fa-lg seven-day-return" style="width: 30px;"></i> {{ $text }}</p>
+							@endforeach
+							{{-- <p><i class="fa text-muted fa-shield-alt fa-lg" style="width: 30px;"></i> 5 Year Warranty</p> --}}
 						</div>
 					</div>
 				</div>
@@ -121,7 +129,7 @@
 	</div>
 </section>
 <div class="modal" id="popOutImagePreview">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body text-center" style="padding: 0;">
             <button type="button" class="close text-white" style="position: absolute;right: -20px;" data-dismiss="modal">&times;</button>
@@ -136,8 +144,8 @@
                   <!-- Wrapper for slides -->
                   <div class="carousel-inner">
                     @forelse($inv->files as $key => $image)
-                    <div class="item {{ $loop->index == 0 ? 'active' : '' }}">
-                      <img src="{{ url("inventoryImage/{$image->id}") }}" alt="{{ $inv->product->name }}" style="margin:0 auto;">
+                    <div class="carousel-item {{ $loop->index == 0 ? 'active' : '' }}">
+                      <img src="{{ url("inventoryImage/{$image->id}") }}" alt="{{ $inv->product->name }}" style="margin:0 auto;" class="img-fluid">
                     </div>
                     @empty
                     <div class="item active">

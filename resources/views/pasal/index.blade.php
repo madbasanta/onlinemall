@@ -5,10 +5,9 @@
 @section('keywords', implode(',', explode(' ', $desc)))
 
 @section('content')
-@if($shop->id)
 <?php
 	$cover = $shop->files->firstWhere('type', 'cover');
-	$image = $cover ? 'style="background: url('.url("shopImage/{$cover->id}").') no-repeat bottom;background-size: 100% auto;"':null;
+	$image = $cover ? 'style="background: url('.url("shopImage/{$cover->id}").') no-repeat bottom;background-size: 100% auto;"':'';
 	$profile = $shop->files->firstWhere('type', 'profile');
 ?>
 <section>
@@ -56,7 +55,6 @@
 		</div>
 	</div>
 </section>
-@endif
 <section class="pasal-category my-3">
 	<div class="container">
 		<div class="row">
@@ -79,7 +77,7 @@
 				<div class="p-3 bg-white">
 					<div>
 						<h1 class="h5">FILTERS</h1>
-						<form action="{{ url('search') }}">
+						<form action="{{ url("pasal/{$shop->id}/". str_slug($shop->name)) }}">
 							<div class="form-group">
 								<input type="search" name="keyword" placeholder="Search Product..." class="form-control form-control-sm outline-none">
 							</div>
@@ -113,7 +111,6 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="div">
-											<input type="hidden" name="shop" value="{{ $shop->id }}">
 											<button class="btn btn-block btn-outline-success">Search</button>
 										</div>
 									</div>
@@ -147,13 +144,16 @@
 	$(window).ready(e => {
 		let url = location.href.split('?');
 		if(1 in url) {
-			$.post('{{ url('search') }}?'+url[1], {_token: '{{ csrf_token() }}'}).then(resp => $('#searchResults').html(resp));
+			$.post('{{ url('search') }}?shop={{ $shop->id }}&'+url[1], {_token: '{{ csrf_token() }}'})
+			.then(resp => $('#searchResults').html(resp));
 		} else {
-			$.post('{{ url('search') }}?shop={{ $shop->id }}', {_token: '{{ csrf_token() }}'}).then(resp => $('#searchResults').html(resp));
+			$.post('{{ url('search') }}?shop={{ $shop->id }}', {_token: '{{ csrf_token() }}'})
+			.then(resp => $('#searchResults').html(resp));
 		}
 
 		setTimeout(function() {
-			$.get('/fetch/shop/recommendedItems?shop={{ $shop->id }}').then(response => $('#recommendedItemsCon').html(response));
+			$.get('/fetch/shop/recommendedItems?shop={{ $shop->id }}')
+			.then(response => $('#recommendedItemsCon').html(response));
 		}, 300);
 	});
 

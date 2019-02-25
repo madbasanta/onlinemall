@@ -6,7 +6,7 @@
 */
 Route::get('/product', 'ProductShowController@index');
 
-Route::get('/product/{inv}', 'ProductShowController@showProduct');
+Route::get('/product/{inv}/{name?}', 'ProductShowController@showProduct');
 
 // index items
 Route::get('/fetch/indexItems', 'ProductShowController@indexItems');

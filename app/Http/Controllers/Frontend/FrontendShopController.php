@@ -19,6 +19,10 @@ class FrontendShopController extends Controller
 
     public function search(Request $request)
     {
+        return view('search', array(
+            'shops' => $this->searchShops($request),
+            'query' => http_build_query($request->all())
+        ));
         if($request->shop):
             $shop = Pasal::find($request->shop);
             if($shop) return $this->index($request, $shop);
@@ -33,6 +37,40 @@ class FrontendShopController extends Controller
         ));
         // dd($shop);
         return view('pasal.index', compact('title', 'desc', 'shop'));
+    }
+
+    private function searchShops(Request $request) {
+        $shops = Pasal::where(function($query) use($request){
+            $query->where('name', 'like', '%'. $request->keyword .'%');
+        })->get();
+        foreach (explode(' ', $request->keyword) as $word) {
+            $pasals = Pasal::where(function($query) use($word){
+                $query->where('name', 'like', '%'. $word .'%');
+            })->get();
+            $shops = $shops->merge($pasals);
+        }
+        $categories = Category::where(function($query) use($request){
+            $query->where('code', 'like', '%'. $request->keyword .'%');
+        })->orWhere(function($query) use($request){
+            $query->where('name', 'like', '%'. $request->keyword .'%');
+        })->orWhere(function($query) use($request){
+            $query->where('name', 'like', '%'. $request->category .'%');
+        })->with('shops')->get();
+
+        foreach (explode(' ', $request->keyword) as $word) {
+            $cats = Category::where(function($query) use($word){
+                $query->where('code', 'like', '%'. $word .'%');
+            })->orWhere(function($query) use($word){
+                $query->where('name', 'like', '%'. $word .'%');
+            })->orWhere(function($query) use($word){
+                $query->where('name', 'like', '%'. $word .'%');
+            })->with('shops')->get();
+            $categories = $categories->merge($cats);
+        }
+        foreach ($categories as $cat) {
+            $shops = $shops->merge($cat->shops);
+        }
+        return $shops;
     }
 
     public function searchResults(Request $request)

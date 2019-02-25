@@ -1,3 +1,13 @@
+<style>
+    #categories-dropdown, #categories-dropdown ul{
+        min-height: 200px;
+        background: rgba(0,0,0,0.7);
+    }
+    #categories-dropdown a{
+        color: #fff;
+        padding-left: 10px;
+    }
+</style>
 <nav class="navbar navbar-expand-sm navbar-light bg-info" id="main-nav">
     <div class="container md">
         <button id="iamtoggler" class="navbar-toggler outline-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +19,17 @@
             </div>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <div class="dropdown">
+                <button class="btn btn-default btn-sm dropdown-toggle px-4" type="button" data-toggle="dropdown">
+                    <i class="fa fa-list"></i>&nbsp;
+                    Categories
+                </button>
+                <ul class="dropdown-menu" id="categories-dropdown">
+                </ul>
+            </div>
             <form class="form-inline my-2 my-lg-0 mr-sm-2 ml-lg-3" style="position: relative;"
             action="{{ url('search') }}">
-                <input name="keyword" class="form-control form-control-sm px-3 outline-none" type="search" placeholder="Search" aria-label="Search on online mall..." style="border-radius: 20px;" id="master-search">
+                <input name="keyword" class="form-control form-control-sm px-3 outline-none" type="search" placeholder="Search" value="{{ request()->query('keyword') }}" aria-label="Search on online mall..." style="border-radius: 20px;" id="master-search">
                 <span style="position: absolute;right: 10px;top: 3px;"><i class="fas fa-search text-muted"></i></span>
             </form>
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -29,14 +47,9 @@
         <div class="row justify-content-between">
             <div class="col-sm-6">
                 <div>
-                    <div class="dropdown">
-                        <button class="btn btn-dark btn-sm dropdown-toggle px-4" type="button" data-toggle="dropdown">
-                            <i class="fa fa-list"></i>&nbsp;
-                            Categories
-                        </button>
-                        <ul class="dropdown-menu" id="categories-dropdown">
-                        </ul>
-                    </div>
+                    <button class="btn btn-sm btn-dark">
+                        {{ ss('message', 'Welcome to ' . ss('site-name', env('APP_NAME')) . '. Happy Shopping!.') }}
+                    </button>
                 </div>
             </div>
             <div class="col-sm-6">

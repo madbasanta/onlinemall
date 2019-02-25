@@ -23,7 +23,7 @@ trait InventoryField {
     	'brand_id' => [
             'type' => 'select',
     		'label' => 'Brand',
-    		'validation' => 'required',
+    		'validation' => 'nullable',
     		'options' => [],
             'select2' => ['table' => 'brands', 'id' => 'id', 'text' => 'name']
     	],
@@ -58,12 +58,13 @@ trait InventoryField {
     		'type' => 'select',
     		'label' => 'Size',
     		'options' => [],
+            'validation' => 'nullable',
             'select2' => ['table' => 'sizes', 'id' => 'id', 'text' => 'size']
     	],
     	'color_id' => [
     		'type' => 'select',
     		'label' => 'Color',
-    		'validation' => 'required',
+    		'validation' => 'nullable',
     		'options' => [],
             'select2' => ['table' => 'colors', 'id' => 'id', 'text' => 'color']
     	]

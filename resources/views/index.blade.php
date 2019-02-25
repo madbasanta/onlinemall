@@ -60,7 +60,7 @@
 					<div class="row">
 						@foreach($offerProducts as $product)
 						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
-							<a href="{{ url("product/{$product->id}") }}">
+							<a href="{{ url("product/{$product->id}/" . str_slug($product->product->name)) }}">
 							<div class="card mt-3 offered-card border-0">
 								<div class="card-body">
 									<?php $image = $product->files->first(); ?>
@@ -98,7 +98,7 @@
 						@foreach($topShops as $shop)
 						<?php $image = $shop->files->firstWhere('type', 'profile'); ?>
 						<div class="col-lg-12 col-md-6 col-sm-6 col-12">
-							<a href="{{ url("pasal/{$shop->id}") }}">
+							<a href="{{ url("pasal/{$shop->id}/" . str_slug($shop->name)) }}">
 							<div class="card mt-3 border-0">
 								<div class="card-body">
 									<div class="float-left"><img src="{{ $image?url("shopImage/{$image->id}"):url('notfound.png') }}" alt="{{ $shop->name }}" class="img-fluid"></div>

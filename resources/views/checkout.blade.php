@@ -75,12 +75,25 @@
 		              </div>
 		            </div>
 
-		            <div class="mb-3">
-		              <label for="email">Email</label>
-		              <input name="email" type="email" class="{{ $errors->has('email')?'is-invalid':'is-valid' }} form-control" id="email" value="{{ Auth::user()->email }}" required="">
-		              <div class="invalid-feedback">
-		                Please enter a valid email address for shipping updates.
-		              </div>
+		            <div class="row">
+		            	<div class="col-md-6">
+		            		<div class="mb-3">
+		            		  <label for="email">Email</label>
+		            		  <input name="email" type="email" class="{{ $errors->has('email')?'is-invalid':'is-valid' }} form-control" id="email" value="{{ Auth::user()->email }}" required="">
+		            		  <div class="invalid-feedback">
+		            		    Please enter a valid email address for shipping updates.
+		            		  </div>
+		            		</div>
+		            	</div>
+		            	<div class="col-md-6">
+		            		<div class="mb-3">
+		            		  <label for="phone">Phone</label>
+		            		  <input name="phone" type="number" class="{{ $errors->has('phone')?'is-invalid':'' }} form-control" id="phone" value="" required="">
+		            		  <div class="invalid-feedback">
+		            		    Please enter a valid phone number.
+		            		  </div>
+		            		</div>
+		            	</div>
 		            </div>
 
 		            <div class="mb-3">
@@ -144,6 +157,9 @@
 		              <datalist id="zipList">
 		              	<option>44600</option>
 		              </datalist>
+		              <!--div class="col-md-12">
+		              	<div id="map" style="height: 400px;"></div>
+		              </div-->
 		            </div>
 		            <hr class="mb-4">
 		            <div class="custom-control custom-checkbox">
@@ -212,5 +228,22 @@
 			$('#totalAmount').text('Rs. '+ (totalAmount - totalDiscount));
 		});
 	})(localStorage.getItem('cart') || '[]', JSON.parse(localStorage.getItem('quantities') || '{}'))
+	function initMap() {
+		let map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 27.7172, lng: 85.3240},
+          zoom: 13
+        });
+        let marker = new google.maps.Marker({
+        	map, position: {lat: 27.6644, lng: 85.3188}
+        });
+        // listen for click on map
+        google.maps.event.addListener(map, 'click', event => {
+        	let marker = new google.maps.Marker({
+	        	map, position: event.latlng
+	        }); 
+        });
+	}
 </script>
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcqXuR65sn729h07D9e6-o1E_SmNyhkHg&callback=initMap"
+    async defer></script-->
 @endsection

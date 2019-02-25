@@ -11,3 +11,5 @@ Route::get('/admin', 'HomeController@adminPanel')->name('admin');
 Route::get('/admin/dashboard', 'HomeController@dashboard');
 Route::get('admin/dashboard/content', 'HomeController@dashboardContent');
 
+
+include 'route_admin.php';

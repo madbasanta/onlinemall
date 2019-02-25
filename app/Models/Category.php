@@ -24,4 +24,17 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id', 'id')->with('children');
     }
+
+    public function shops() {
+        return $this->belongsToMany(Pasal::class, 'pasal_categories', 'category_id', 'pasal_id');
+    }
+
+
+    public function save(array $options = array()) {
+        foreach($options as $key => $data):
+            $this->$key = $data;
+        endforeach;
+        if(!$this->code) $this->attributes['code'] = strtoupper($this->getDynamicCode());
+        parent::save();
+    }
 }

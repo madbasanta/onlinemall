@@ -143,7 +143,7 @@
 					let hasChild = child.children && child.children.length > 0;
 					fake += `
 						<li class="dropdown-submenu">
-	                        <a class="${hasChild ? 'test dropdown-toggle' : ''}" href="#" tabindex="-1">${child.name}</a>
+	                        <a class="${hasChild ? 'test dropdown-toggle' : ''}" href="/search?search=${child.id}&category=${child.name}&t=${(new Date()).getTime()}" tabindex="-1">${child.name}</a>
 	                        ${hasChild ? child_data(child.children) : ''}
 	                    </li>
 					`;

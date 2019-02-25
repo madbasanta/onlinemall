@@ -56,6 +56,16 @@ class InventoryController extends Controller
         return response()->file(public_path('notfound.png'));
     }
 
+    public function fileSrc(Inventory $inv)
+    {
+        foreach ($inv->files as $file) {
+            if (file_exists($file->path)) {
+                return 'inventoryImage/' . $file->id;
+            }
+        }
+        return '';
+    }
+
     public function fileRemove(Inventory $inv, File $file)
     {
         unlink($file->path);

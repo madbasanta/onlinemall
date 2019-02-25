@@ -8,7 +8,7 @@
 		<div class="row">
 			@foreach($products as $i => $product)
 			<div class="col-lg-2 col-md-3 d-md-block col-sm-4 col-6 {{ $i > 3 ? 'd-none' : '' }} px-2">
-				<a href="{{ url("product/{$product->id}") }}" style="color: unset;" class="card-link">
+				<a href="{{ url("product/{$product->id}/". str_slug($proudct->product->name)) }}" style="color: unset;" class="card-link">
 				<div class="card border-0 mb-3 b-e-h">
 					<div class="card-body text-center p-0">
 						<div class="b-e-h-c" style="height: 150px;text-align: center;">

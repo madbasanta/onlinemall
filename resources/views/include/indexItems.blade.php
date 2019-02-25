@@ -14,7 +14,7 @@
 						$image = $inventory->files->first();
 					?>
 					<div class="col-lg-6 col-md-6 col-sm-6 col-6 p-2">
-						<a href="{{ url("product/{$inventory->id}") }}" style="color: unset;">
+						<a href="{{ url("product/{$inventory->id}/" . str_slug($product->name)) }}" style="color: unset;">
 						<div class="card border-0 mb-3 b-e-h">
 							<div class="card-body text-center p-0">
 								<div class="b-e-h-c" style="height: 220px;">
