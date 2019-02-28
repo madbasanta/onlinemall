@@ -4,7 +4,7 @@ namespace App\Traits;
 trait CommonTraits {
 
     public function hasRelation() {
-        return sizeof($this->relationships) > 0;
+        return isset($this->relationships) && sizeof((array) $this->relationships) > 0;
     }
 
     public function getRelations() {

@@ -39,23 +39,23 @@ Artisan::command('iseed {table}', function ($table) {
 			$filename = database_path('seeds/'. $classname . '.php');
 			$content = '<?php
 
-		use Illuminate\Database\Seeder;
+use Illuminate\Database\Seeder;
 
-		class %s extends Seeder
-		{
-		    /**
-		     * Run the database seeds.
-		     *
-		     * @return void
-		     */
-		    public function run()
-		    {
-		        $data = %s;
-		        \DB::table("%s")->delete();
-		        \DB::table("%s")->insert($data);
-		    }
-		}
-		';
+class %s extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $data = %s;
+        \DB::table("%s")->delete();
+        \DB::table("%s")->insert($data);
+    }
+}
+';
 		file_put_contents($filename, sprintf($content, $classname, $arr, $table, $table));
     	$this->comment($classname . ' created successfully.');
 	} catch (\Exception $e) {
